@@ -1,6 +1,9 @@
 <script setup>
 import {useDailyDataStore} from '../stores/dailyData'
 import { storeToRefs } from 'pinia'
+import CONSTANTS from '../constants'
+import sqlClient from "../duckdb/sqlClient"
+
 defineProps({
   msg: {
     type: String,
@@ -8,16 +11,14 @@ defineProps({
   }
 })
 const dailyDataStore = useDailyDataStore()
-const { stationsNames } = storeToRefs(dailyDataStore)
-console.log("Hello", stationsNames)
+const { columns, stationsNames } = storeToRefs(dailyDataStore)
+console.log("columns", columns)
+console.log("stationsNames", stationsNames)
 // ` SELECT AAAAMMJJ, NOM_USUEL, NUM_POSTE, RR, TN, TX
 //         FROM read_parquet()
 //         WHERE NOM_USUEL='ABBEVILLE' ORDER BY AAAAMMJJ`})
-const parquetFiles = [
-
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
+const parquetFilesUrls = CONSTANTS.DAILY_DATA.PARQUET_FILES_URLS
+console.log({parquetFilesUrls})
 
 const query = defineModel({
   default: { columns: null, stationName: null, startDate: null, endDate: null }
@@ -33,12 +34,13 @@ function onSubmit() {
   console.log("onSubmit", query.value)
   const {columns, stationName, startDate, endDate} = query.value;
   const columnsStr = columns.join(", ");
-  const filesStr = `['${parquetFiles.join("','")}']`
+  const filesStr = sqlClient.getUrlsArrayForSQLQuery(parquetFilesUrls)
+  console.log({filesStr})
   const stationNameWhere = `NOM_USUEL='${stationName}'`;
   const datesWhere = `AAAAMMJJ>=${startDate.replaceAll("-","")} AND AAAAMMJJ<=${endDate.replaceAll("-","")}`;
   
   const fullQuery = `SELECT ${columnsStr} from read_parquet(${filesStr}) WHERE ${stationNameWhere} AND ${datesWhere} ORDER BY AAAAMMJJ`
-  console.log({fullQuery})
+  console.log(fullQuery)
 
 //  const q= "SELECT AAAAMMJJ, NOM_USUEL, NUM_POSTE, RR, TX, TN from read_parquet(['https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet','https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet','https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']) WHERE NOM_USUEL='ABBEVILLE' AND AAAAMMJJ>=20240101 AND AAAAMMJJ<=20240410 ORDER BY AAAAMMJJ" 
 
@@ -52,8 +54,9 @@ function onSubmit() {
 
     <form @submit.prevent="onSubmit">
       <select name="columns" v-model="query.columns" multiple>
-        <option  v-for="item in stationsNames" value="{{ item }}">{{item}}</option>
+        <option  v-for="item in columns" :value="item" :key="item">{{item}}</option>
       </select>
+      <p>{{ columns }}</p>
       <p>{{ stationsNames }}</p>
       <select name="columns" v-model="query.stationName">
         <option value="AAAAMMJJ">AAAAMMJJ</option>

@@ -6,8 +6,8 @@ import * as Plotly from "plotly.js-dist";
 import { runQuery } from './duckdb/plotly.js'
 import { DuckDbFactory } from './duckdb/duckdb';
 import {useDailyDataStore} from './stores/dailyData'
+import sqlClient from './duckdb/sqlClient';
 const graph = ref(null)
-
 const dailyDataStore  = useDailyDataStore()
 
 function submit(form) {
@@ -79,39 +79,31 @@ DuckDbFactory.getInstance().then((db) => {
 }).then((res) => {
   conn = res;
   // Either materialize the query result
-  const query = `SELECT * FROM read_parquet([
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
-  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
-  ) LIMIT 0`
+  const query = sqlClient.getColumnsQuery()
   return conn.query(query);
 }).then((result) => {
   console.log(result)
   console.log(result.toArray())
   const columns = result.schema.fields.map(x => x.name)
   console.log(columns)
-  dailyDataStore.setStationsNames(columns)
+  dailyDataStore.setColumns(columns)
   
-//   const query = `
-//     SELECT NOM_USUEL,NUM_POSTE FROM read_parquet([
-//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
-//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
-//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
-//   )
-// GROUP BY NUM_POSTE, NOM_USUEL ORDER BY NOM_USUEL`
-//   return conn.query(query);
-// }).then((result) => {
-//   console.log(result)
+  const query = sqlClient.getStationsNamesAndIdsQuery()
+  return conn.query(query);
+}).then((result) => {
+  console.log(result)
 
-//   result.toArray().map((row) => {
-//     const r = row.toJSON();
-//     const { NOM_USUEL, NUM_POSTE } = r
-//     stationsNames.push(NOM_USUEL)
-//     stationsIds.push(NUM_POSTE)
-//   })
-//   uniqueStationsNames = [... new Set(stationsNames)]
-//   console.log(uniqueStationsNames)
-//   console.log(stationsIds)
+  result.toArray().map((row) => {
+    const r = row.toJSON();
+    const { NOM_USUEL, NUM_POSTE } = r
+    stationsNames.push(NOM_USUEL)
+    stationsIds.push(NUM_POSTE)
+  })
+  uniqueStationsNames = [... new Set(stationsNames)]
+  dailyDataStore.setStationsNames(uniqueStationsNames)
+
+  console.log(uniqueStationsNames)
+  console.log(stationsIds)
   conn.close()
 })
 </script>
