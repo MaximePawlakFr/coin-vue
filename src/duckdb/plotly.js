@@ -1,22 +1,14 @@
-import { init } from "./duckdb.js";
+import { DuckDbFactory } from "./duckdb.js";
 
-export const runQuery = () => {
+export const runQuery = (query) => {
   // Create a new connection
   let conn = null;
-  return init().then((db) => {
+  return DuckDbFactory.getInstance().then((db) => {
     return db.connect();
   }).then((res) => {
     conn = res;
     // Either materialize the query result
-    return conn.query(
-      `SELECT AAAAMMJJ, NOM_USUEL, NUM_POSTE, RR, TN, TX
-        FROM read_parquet([
-          'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
-          'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
-          'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
-          )
-        WHERE NOM_USUEL='ABBEVILLE' ORDER BY AAAAMMJJ`,
-    );
+    return conn.query(query);
   }).then((result) => {
     const dataRR = [];
     const dataTN = [];

@@ -1,84 +1,119 @@
 <script setup>
-import {ref,onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import * as Plotly from "plotly.js-dist";
-import {runQuery} from './duckdb/plotly.js'
+import { runQuery } from './duckdb/plotly.js'
+import { DuckDbFactory } from './duckdb/duckdb';
+import {useDailyDataStore} from './stores/dailyData'
 const graph = ref(null)
 
+const dailyDataStore  = useDailyDataStore()
 
-function submit(form){
-  console.log("submit",form)
-  return runQuery().then(res=>{
-    console.log({res})
-    const {dates, dataTN, dataTX} = res;
-  draw(graph.value,dates, dataTN, dataTX);
+function submit(form) {
+  console.log("submit", form)
+  const { query } = form;
+  return runQuery(query).then(res => {
+    console.log({ res })
+    const { dates, dataTN, dataTX } = res;
+    draw(graph.value, dates, dataTN, dataTX);
 
   })
-
 }
 
-const draw = (div,dates, dataTN, dataTX)=>{
+const draw = (div, dates, dataTN, dataTX) => {
   Plotly.newPlot(
     div,
-        [
-          {
-            name: "TN",
-            x: dates,
-            y: dataTN,
-            mode: "lines",
-          },
-          {
-            name: "TX",
-            x: dates,
-            y: dataTX,
-            mode: "lines",
-            line: { color: "red" },
-          },
-        ],
-        {
-          title: "Coin Coin",
-          xaxis: {
-            autorange: true,
-            // range: ["1930-02-17", "1935-02-16"],
-            rangeselector: {
-              buttons: [
-                {
-                  count: 1,
-                  label: "1m",
-                  step: "month",
-                  stepmode: "backward",
-                },
-                {
-                  count: 6,
-                  label: "6m",
-                  step: "month",
-                  stepmode: "backward",
-                },
-                { step: "all" },
-              ],
+    [
+      {
+        name: "TN",
+        x: dates,
+        y: dataTN,
+        mode: "lines",
+      },
+      {
+        name: "TX",
+        x: dates,
+        y: dataTX,
+        mode: "lines",
+        line: { color: "red" },
+      },
+    ],
+    {
+      title: "Coin Coin",
+      xaxis: {
+        autorange: true,
+        // range: ["1930-02-17", "1935-02-16"],
+        rangeselector: {
+          buttons: [
+            {
+              count: 1,
+              label: "1m",
+              step: "month",
+              stepmode: "backward",
             },
-            rangeslider: { range: ["1925-02-17", "1930-02-16"] },
-            type: "date",
-          },
-          showLegend: true,
-          scrollZoom: true,
-          displaylogo: false,
+            {
+              count: 6,
+              label: "6m",
+              step: "month",
+              stepmode: "backward",
+            },
+            { step: "all" },
+          ],
         },
-      );
+        rangeslider: { range: ["1925-02-17", "1930-02-16"] },
+        type: "date",
+      },
+      showLegend: true,
+      scrollZoom: true,
+      displaylogo: false,
+    },
+  );
 }
+const stationsNames = [];
+const stationsIds = []
+let uniqueStationsNames;
+let conn = null
+DuckDbFactory.getInstance().then((db) => {
+  return db.connect();
+}).then((res) => {
+  conn = res;
+  // Either materialize the query result
+  const query = `SELECT * FROM read_parquet([
+  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
+  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
+  'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
+  ) LIMIT 0`
+  return conn.query(query);
+}).then((result) => {
+  console.log(result)
+  console.log(result.toArray())
+  const columns = result.schema.fields.map(x => x.name)
+  console.log(columns)
+  dailyDataStore.setStationsNames(columns)
+  
+//   const query = `
+//     SELECT NOM_USUEL,NUM_POSTE FROM read_parquet([
+//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet',
+//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet',
+//   'https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet']
+//   )
+// GROUP BY NUM_POSTE, NOM_USUEL ORDER BY NOM_USUEL`
+//   return conn.query(query);
+// }).then((result) => {
+//   console.log(result)
 
-onMounted(()=>{
-  console.log("mounted")
-console.log("graph",graph)
-console.log("graph",graph.innerHtml)
-console.log("graph",graph.value)
-
-const dates = ["2024-01-01","2024-01-02"];
-const dataTN=[1,2]
-const dataTX = [3,4]
-  // draw(graph.value,dates, dataTN, dataTX);
-});
+//   result.toArray().map((row) => {
+//     const r = row.toJSON();
+//     const { NOM_USUEL, NUM_POSTE } = r
+//     stationsNames.push(NOM_USUEL)
+//     stationsIds.push(NUM_POSTE)
+//   })
+//   uniqueStationsNames = [... new Set(stationsNames)]
+//   console.log(uniqueStationsNames)
+//   console.log(stationsIds)
+  conn.close()
+})
 </script>
 
 <template>
@@ -88,7 +123,7 @@ const dataTX = [3,4]
     <div class="wrapper">
       <HelloWorld msg="You did it!" @submit="submit" />
       <div ref="graph" style="width: 80vw;height:400px;">
-        </div>
+      </div>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>

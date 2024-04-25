@@ -14,7 +14,8 @@ const MANUAL_BUNDLES = {
     mainWorker: eh_worker,
   },
 };
-export const init = async () => {
+
+const init = async () => {
   // Select a bundle based on browser checks
   const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
   // Instantiate the asynchronus version of DuckDB-wasm
@@ -26,3 +27,18 @@ export const init = async () => {
   console.log({ db });
   return db;
 };
+
+export const DuckDbFactory = (() => {
+  let instance = null;
+
+  const getInstance = () => {
+    if (instance) {
+      return new Promise((resolve) => {
+        resolve(instance);
+      });
+    } else {
+      return init();
+    }
+  };
+  return { getInstance };
+})();
