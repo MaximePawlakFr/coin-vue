@@ -2,19 +2,39 @@ import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useDailyDataStore = defineStore("dailyData", () => {
-  const columns = ref([]);
+  const parametersColumns = ref([]);
+  const stationsColumns = ref([]);
   const stationsNames = ref([]);
   const stationsIds = ref([]);
 
-  function setStationsNames(items) {
-    console.log("setStationsNames", items);
-    stationsNames.value = items;
+  function setArray(refArray, newArray) {
+    refArray.value = newArray;
   }
 
-  function setColumns(items) {
-    console.log("setColumns", items);
-    columns.value = items;
+  function setParametersColumns(newArray) {
+    setArray(parametersColumns, newArray);
   }
 
-  return { stationsNames, setStationsNames, columns, setColumns };
+  function setStationsColumns(newArray) {
+    setArray(stationsColumns, newArray);
+  }
+
+  function setStationsNames(newArray) {
+    setArray(stationsNames, newArray);
+  }
+
+  function setStationsIds(newArray) {
+    setArray(stationsIds, newArray);
+  }
+
+  return {
+    stationsNames,
+    parametersColumns,
+    stationsColumns,
+    stationsIds,
+    setStationsColumns,
+    setParametersColumns,
+    setStationsNames,
+    setStationsIds,
+  };
 });
