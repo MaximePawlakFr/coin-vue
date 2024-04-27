@@ -21,7 +21,7 @@ const {
 console.log({parquetFilesUrls})
 
 const defaultStartDate = new Date()
-defaultStartDate.setDate(defaultStartDate.getDate() - 15);
+defaultStartDate.setDate(defaultStartDate.getDate() - 365);
 
 const defaultStartDateStr = defaultStartDate.toISOString().slice(0, 10);//{...defaultStartDate.toISOString().slice(0, 10)};
 const defaultEndDateStr = new Date().toISOString().slice(0, 10);
@@ -54,7 +54,8 @@ const emit = defineEmits({
 function onSubmit() {
   console.log("onSubmit")
   const defaultColumns = ["AAAAMMJJ"]
-  const columnsStr = defaultColumns.concat(formParametersColumns.value).join(", ");
+  const columns = defaultColumns.concat(formParametersColumns.value)
+  const columnsStr = columns.join(", ");
   const filesStr = sqlClient.getUrlsArrayForSQLQuery(parquetFilesUrls)
   console.log({filesStr})
   const stationNameWhere = `NOM_USUEL='${formStationName.value}'`;
@@ -63,7 +64,7 @@ function onSubmit() {
   const fullQuery = `SELECT ${columnsStr} from read_parquet(${filesStr}) WHERE ${stationNameWhere} AND ${datesWhere} ORDER BY AAAAMMJJ`
   console.log(fullQuery)
 
-  emit('submit', { query: fullQuery })
+  emit('submit', { query: fullQuery, columns:columns })
 }
 </script>
 

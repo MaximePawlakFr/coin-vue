@@ -11,36 +11,39 @@ import {
 const graph = ref(null)
 const dailyDataStore  = useDailyDataStore()
 
+const isDrawing = defineModel('isDrawing', false);
 
 function submit(form) {
   console.log("submit", form)
-  const { query } = form;
-  return runQuery(query).then(res => {
+  isDrawing.value = true;
+  return runQuery(form)
+  .then(res => {
     console.log({ res })
-    const { dates, dataTN, dataTX } = res;
-    draw(graph.value, dates, dataTN, dataTX);
+    const { dates, data } = res;
+    draw(graph.value, dates, data);
+  isDrawing.value = false;
 
   })
 }
 
-const draw = (div, dates, dataTN, dataTX) => {
+const draw = (div, dates, data) => {
+  console.log({data})
+  const dataKeys =  Object.keys(data)
+  const plotlyData = dataKeys.map(column => {
+    if(column !== "AAAAMMJJ"){
+      return {
+        name: column,
+        x:dates,
+        y:data[column],
+        mode:"lines"
+      }
+    }
+  }).filter(item => item)
+  console.log({plotlyData})
+
   Plotly.newPlot(
-    div,
-    [
-      {
-        name: "TN",
-        x: dates,
-        y: dataTN,
-        mode: "lines",
-      },
-      {
-        name: "TX",
-        x: dates,
-        y: dataTX,
-        mode: "lines",
-        line: { color: "red" },
-      },
-    ],
+    div,plotlyData,
+    
     {
       title: "Coin Coin",
       xaxis: {
@@ -63,7 +66,7 @@ const draw = (div, dates, dataTN, dataTX) => {
             { step: "all" },
           ],
         },
-        rangeslider: { range: ["1925-02-17", "1930-02-16"] },
+        rangeslider: { range: [dates[0], dates[dates.length-1]] },
         type: "date",
       },
       showLegend: true,
@@ -92,7 +95,8 @@ dailyDataStore.setStationsIds(stationsIds.sort())
   <header>
     <div class="wrapper">
       <HelloWorld msg="You did it!" @submit="submit" />
-      <div ref="graph" style="width: 80vw;height:400px;">
+      <h3>isDrawing: {{ isDrawing }}</h3>
+      <div ref="graph" style="width: 100vw;height:400px;">
       </div>
     </div>
   </header>
