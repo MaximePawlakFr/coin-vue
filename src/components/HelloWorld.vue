@@ -70,43 +70,45 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="greetings">
-
-    <form @submit.prevent="onSubmit">
+  <div class="container mx-auto">
+    
+    <form @submit.prevent="onSubmit" class="">
       <div>
-        <ul>
-          <li v-for="item in formParametersColumns" :key="item">{{ item }}</li>
-        </ul>
-        <label for="formParametersColumns">Parameters</label>
-        <select name="formParametersColumns" v-model="formParametersColumns" multiple size="10">
-          <option  v-for="item in parametersColumns" :value="item" :key="item" >{{item}}</option>
-        </select>
+       <p>Parameters:</p><button type="button">All</button><button type="button">None</button>
+       <fieldset class="flex flex-wrap">
+          <template v-for="item in parametersColumns">
+            <div class="mx-1">
+
+              <input type="checkbox" name="formParametersColumns" :id="item" :value="item" v-model="formParametersColumns"/>
+              <label :for="item" class="mx-2">{{ item }}</label>
+            </div>
+          </template>
+
+        </fieldset>
       </div>
 
-      <div>
-        <label for="stationsNames">Station</label>
+      <fieldset>
+        <label for="stationsNames">Station: </label>
         <input type="text" v-model="formStationName" name="stationsNames" id="stationsNames" list="stationsNamesList"/>
-        <!-- <select name="stationsNames" v-model="query.stationName"> -->
           <datalist id="stationsNamesList">
             
             <option v-for="item in stations" :value="item.name" :key="item.id"> {{ item.department }} - {{item.name}}</option>
           </datalist>
-          <!-- </select> -->
-      </div>
+      </fieldset>
 
-      <div>
-        <div>
+      <div class="flex">
+        <fieldset>
           <label for="">From</label>
           <input type="date" v-model="formStartDate"/>
-        </div>
+        </fieldset>
 
-        <div>
+        <fieldset>
           <label for="">To</label>  
           <input type="date" v-model="formEndDate"/>
-        </div>
+        </fieldset>
       </div>
 
-      <button>Go </button>
+      <button role="submit">Fetch data</button>
     </form>
   </div>
 </template>

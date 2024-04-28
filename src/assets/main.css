@@ -1,0 +1,27 @@
+body{
+    background-color: #006076;
+    color:#FFF;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input, select {
+    color:#006076;
+}
+
+button, input[type="submit"]{
+    background-color: #FFF;
+    color:#006076;
+    padding: 4px 8px;
+    border:1px solid #006076
+}
+
+
+button:hover, input[type="submit"]:hover{
+    background-color: #006076;
+    color:#FFF;
+    border-color: #FFF;
+}
+
+input{
+    padding: 4px 8px;
+}

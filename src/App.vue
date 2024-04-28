@@ -117,19 +117,23 @@ dailyDataStore.setStationsIds(stationsIds.sort())
 
 <template>
   <header>
-    <div class="wrapper">
+    <h1 class="text-3xl text-center m-16">Meteo 🦆 Coin-Coin 🦆</h1>
+  </header>
+  <main>
+    <div>
       <HelloWorld msg="You did it!" @submit="submit" />
       <h3>isDrawing: {{ isDrawing }}</h3>
       <perspective-viewer ref="viewer"> </perspective-viewer>
       <div ref="graph" style="width: 100vw;height:400px;">
       </div>
     </div>
-  </header>
+
+  </main>
 
 </template>
 
 <style scoped>
 perspective-viewer {
-  width: 50vw;
+  width: 100vw;
   height: 200px;
 }</style>
