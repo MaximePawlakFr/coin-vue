@@ -12,6 +12,7 @@ defineProps({
 })
 const dailyDataStore = useDailyDataStore()
 const { 
+  stations,
     stationsNames,
     parametersColumns,
     stationsColumns,
@@ -76,24 +77,33 @@ function onSubmit() {
         <ul>
           <li v-for="item in formParametersColumns" :key="item">{{ item }}</li>
         </ul>
+        <label for="formParametersColumns">Parameters</label>
         <select name="formParametersColumns" v-model="formParametersColumns" multiple size="10">
           <option  v-for="item in parametersColumns" :value="item" :key="item" >{{item}}</option>
         </select>
       </div>
 
       <div>
+        <label for="stationsNames">Station</label>
         <input type="text" v-model="formStationName" name="stationsNames" id="stationsNames" list="stationsNamesList"/>
         <!-- <select name="stationsNames" v-model="query.stationName"> -->
           <datalist id="stationsNamesList">
             
-            <option v-for="item in stationsNames" :value="item" :key="item">{{item}}</option>
+            <option v-for="item in stations" :value="item.name" :key="item.id"> {{ item.department }} - {{item.name}}</option>
           </datalist>
           <!-- </select> -->
       </div>
 
       <div>
-        <input type="date" v-model="formStartDate"/>
-        <input type="date" v-model="formEndDate"/>
+        <div>
+          <label for="">From</label>
+          <input type="date" v-model="formStartDate"/>
+        </div>
+
+        <div>
+          <label for="">To</label>  
+          <input type="date" v-model="formEndDate"/>
+        </div>
       </div>
 
       <button>Go </button>

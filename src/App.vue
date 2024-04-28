@@ -88,12 +88,26 @@ const draw = (div, dates, data) => {
 const stationsNames = [];
 const stationsIds = []
 
-fiches.features.map(station => {
-  const {NOM_USUEL, NUM_POSTE} = station.properties
+const stations = fiches.features.map(feature => {
+  const {NOM_USUEL, NUM_POSTE, NUM_DEP} = feature.properties
   stationsNames.push(NOM_USUEL)
   stationsIds.push(NUM_POSTE)
-})
 
+  const station = {
+    name:NOM_USUEL,
+    id:NUM_POSTE,
+    department:NUM_DEP>9?""+NUM_DEP:"0"+NUM_DEP
+  };
+  return station
+})
+stations.sort((a,b)=>{
+  if( a.NUM_DEP >= b.NUM_DEP){
+    return 1;
+  }else{
+    return -1
+  }
+})
+dailyDataStore.setStations(stations);
 dailyDataStore.setStationsColumns(stationsColumns)
 dailyDataStore.setParametersColumns(parametersColumns)
 dailyDataStore.setStationsNames(stationsNames.sort())
