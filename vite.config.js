@@ -16,7 +16,4 @@ export default defineConfig({
     },
   },
   base: "https://github.com/MaximePawlakFr/coin-vue/",
-  build: {
-    outDir: "docs",
-  },
 });
