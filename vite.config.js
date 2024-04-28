@@ -15,5 +15,5 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  base: "https://github.com/MaximePawlakFr/coin-vue/",
+  base: "https://maximepawlakfr.github.io/coin-vue/",
 });
