@@ -7,8 +7,13 @@ import {useDailyDataStore} from './stores/dailyData'
 import fiches from "./assets/meteofrance-fiches-stations.js";
 import {  
    stationsColumns, parametersColumns} from "./assets/meteofrance-columns";
+   import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js";
+
+
+  const worker = perspective.worker();
 
 const graph = ref(null)
+const viewer = ref(null)
 const dailyDataStore  = useDailyDataStore()
 
 const isDrawing = defineModel('isDrawing', false);
@@ -20,6 +25,11 @@ function submit(form) {
   .then(res => {
     console.log({ res })
     const { dates, data } = res;
+    
+ const workerData = worker.table(data)
+    viewer.value.load(workerData);
+
+    
     draw(graph.value, dates, data);
   isDrawing.value = false;
 
@@ -88,7 +98,7 @@ dailyDataStore.setStationsColumns(stationsColumns)
 dailyDataStore.setParametersColumns(parametersColumns)
 dailyDataStore.setStationsNames(stationsNames.sort())
 dailyDataStore.setStationsIds(stationsIds.sort())
-  
+
 </script>
 
 <template>
@@ -96,9 +106,16 @@ dailyDataStore.setStationsIds(stationsIds.sort())
     <div class="wrapper">
       <HelloWorld msg="You did it!" @submit="submit" />
       <h3>isDrawing: {{ isDrawing }}</h3>
+      <perspective-viewer ref="viewer"> </perspective-viewer>
       <div ref="graph" style="width: 100vw;height:400px;">
       </div>
     </div>
   </header>
 
 </template>
+
+<style scoped>
+perspective-viewer {
+  width: 50vw;
+  height: 200px;
+}</style>
