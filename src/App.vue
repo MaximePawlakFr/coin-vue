@@ -104,7 +104,7 @@ dailyDataStore.setStationsIds(stationsIds.sort())
   </footer>
 </template>
 
-<style>
+<style scoped>
 body {
   background-color: #006076;
   color: #fff;

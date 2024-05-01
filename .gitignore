@@ -35,4 +35,5 @@ playwright-report/
 .yarn/
 docs/
 
+.env.*
 vite.config.js.timestamp-*
