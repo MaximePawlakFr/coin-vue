@@ -2,7 +2,7 @@
 import { useDailyDataStore } from "../stores/dailyData"
 import { storeToRefs } from "pinia"
 import CONSTANTS from "../constants"
-import sqlClient from "../duckdb/sqlClient"
+import sqlClient from "../duckdb/sqlQueryBuilder"
 
 defineProps({
   msg: {
@@ -38,6 +38,20 @@ const formEndDate = defineModel("formEndDate", {
 
 formStartDate.value = defaultStartDateStr
 formEndDate.value = defaultEndDateStr
+console.log({ parametersColumns })
+const onClickAllButton = () => {
+  formParametersColumns.value = parametersColumns.value
+}
+
+const onClickNoneButton = () => {
+  formParametersColumns.value = []
+}
+
+const onClickExampleButton = () => {
+  console.log("example")
+  formParametersColumns.value = ["RR", "TN", "TX"]
+  formStationName.value = "TOULOUSE-BLAGNAC"
+}
 
 const emit = defineEmits({
   submit: (form) => {
@@ -73,8 +87,12 @@ function onSubmit() {
   <div>
     <form @submit.prevent="onSubmit" class="">
       <div>
-        <p>Parameters:</p>
-        <button type="button">All</button><button type="button">None</button>
+        <p>Parameters</p>
+        <button type="button" @click="onClickAllButton" class="rounded duration-500">All</button>
+        <button type="button" @click="onClickNoneButton" class="rounded duration-500">None</button>
+        <button type="button" @click="onClickExampleButton" class="rounded duration-500">
+          Example
+        </button>
         <fieldset class="flex flex-wrap">
           <template v-for="item in parametersColumns" :key="item">
             <div class="mx-1">
@@ -91,36 +109,40 @@ function onSubmit() {
         </fieldset>
       </div>
 
-      <fieldset>
-        <label for="stationsNames">Station: </label>
-        <input
-          type="text"
-          v-model="formStationName"
-          name="stationsNames"
-          id="stationsNames"
-          list="stationsNamesList"
-          autocomplete="off"
-        />
-        <datalist id="stationsNamesList">
-          <option v-for="item in stations" :value="item.name" :key="item.id">
-            {{ item.department }} - {{ item.name }}
-          </option>
-        </datalist>
-      </fieldset>
-
-      <div class="flex">
+      <div class="flex justify-around">
         <fieldset>
-          <label for="">From</label>
-          <input type="date" v-model="formStartDate" />
+          <label for="stationsNames" class="mr-2">Station</label>
+          <input
+            type="text"
+            v-model="formStationName"
+            name="stationsNames"
+            id="stationsNames"
+            list="stationsNamesList"
+            autocomplete="off"
+          />
+          <datalist id="stationsNamesList">
+            <option v-for="item in stations" :value="item.name" :key="item.id">
+              {{ item.department }} - {{ item.name }}
+            </option>
+          </datalist>
         </fieldset>
 
-        <fieldset>
-          <label for="">To</label>
-          <input type="date" v-model="formEndDate" />
-        </fieldset>
+        <div class="flex gap-x-6">
+          <fieldset>
+            <label for="" class="mr-2">From</label>
+            <input type="date" v-model="formStartDate" />
+          </fieldset>
+
+          <fieldset>
+            <label for="" class="mr-2">To</label>
+            <input type="date" v-model="formEndDate" />
+          </fieldset>
+        </div>
       </div>
 
-      <button role="submit">Fetch data</button>
+      <button role="submit" class="w-full my-6 py-4 text-xl rounded duration-500">
+        Fetch data
+      </button>
     </form>
   </div>
 </template>

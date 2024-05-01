@@ -2,12 +2,12 @@
 import { ref } from "vue"
 import HelloWorld from "./components/HelloWorld.vue"
 import Loader from "./components/Loader.vue"
-import * as Plotly from "plotly.js-dist"
-import { runQuery } from "./duckdb/plotly.js"
+import { runQuery } from "./duckdb/dataClient.js"
 import { useDailyDataStore } from "./stores/dailyData"
 import fiches from "./assets/meteofrance-fiches-stations.js"
 import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns"
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
+import { drawPlot } from "./utils/plotly"
 
 import posthog from "posthog-js"
 const ENV = import.meta.env
@@ -45,63 +45,11 @@ function submit(form) {
     viewer.value.load(workerData)
     setTimeout(() => {
       const title = `${stationName} - ${startDate} -> ${endDate}`
-      draw(graph.value, title, dates, data)
+      drawPlot(graph.value, title, dates, data)
     }, 100)
   })
 }
 
-const draw = (div, title, dates, data) => {
-  console.log({ data })
-  const dataKeys = Object.keys(data)
-  const plotlyData = dataKeys
-    .map((column) => {
-      if (column !== "AAAAMMJJ") {
-        return {
-          name: column,
-          x: dates,
-          y: data[column],
-          mode: "lines"
-        }
-      }
-    })
-    .filter((item) => item)
-  console.log({ plotlyData })
-
-  Plotly.newPlot(
-    div,
-    plotlyData,
-
-    {
-      title: title,
-      xaxis: {
-        autorange: true,
-        // range: ["1930-02-17", "1935-02-16"],
-        rangeselector: {
-          buttons: [
-            {
-              count: 1,
-              label: "1m",
-              step: "month",
-              stepmode: "backward"
-            },
-            {
-              count: 6,
-              label: "6m",
-              step: "month",
-              stepmode: "backward"
-            },
-            { step: "all" }
-          ]
-        },
-        rangeslider: { range: [dates[0], dates[dates.length - 1]] },
-        type: "date"
-      },
-      showLegend: true,
-      scrollZoom: true,
-      displaylogo: false
-    }
-  )
-}
 const stationsNames = []
 const stationsIds = []
 
