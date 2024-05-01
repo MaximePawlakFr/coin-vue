@@ -16,6 +16,11 @@ jobs:
           node-version: '20'
       - name: Install Yarn
         run: npm install -g yarn
+      - name: Create .env
+        run: |
+          touch .env
+          echo VITE_POSTHOG_KEY=${{env.VITE_POSTHOG_KEY}} > .env
+          cat .env
       - name: Install and Build
         run: yarn install && yarn build
       - name: Deploy to GitHub Pages
