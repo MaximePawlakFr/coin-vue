@@ -59,7 +59,13 @@ function onSubmit() {
   const fullQuery = `SELECT ${columnsStr} from read_parquet(${filesStr}) WHERE ${stationNameWhere} AND ${datesWhere} ORDER BY AAAAMMJJ`
   console.log(fullQuery)
 
-  emit("submit", { query: fullQuery, columns: columns })
+  emit("submit", {
+    query: fullQuery,
+    columns: columns,
+    stationName: formStationName.value,
+    startDate: formStartDate.value,
+    endDate: formEndDate.value
+  })
 }
 </script>
 

@@ -32,6 +32,7 @@ const isGraphReady = defineModel("isGraphReady", false)
 function submit(form) {
   posthog.capture("my event", { property: "value" })
   console.log("submit", form)
+  const { stationName, startDate, endDate } = form
   isFetchingData.value = true
   return runQuery(form).then((res) => {
     console.log({ res })
@@ -43,12 +44,13 @@ function submit(form) {
     const workerData = worker.table(data)
     viewer.value.load(workerData)
     setTimeout(() => {
-      draw(graph.value, dates, data)
+      const title = `${stationName} - ${startDate} -> ${endDate}`
+      draw(graph.value, title, dates, data)
     }, 100)
   })
 }
 
-const draw = (div, dates, data) => {
+const draw = (div, title, dates, data) => {
   console.log({ data })
   const dataKeys = Object.keys(data)
   const plotlyData = dataKeys
@@ -70,7 +72,7 @@ const draw = (div, dates, data) => {
     plotlyData,
 
     {
-      title: "Coin Coin",
+      title: title,
       xaxis: {
         autorange: true,
         // range: ["1930-02-17", "1935-02-16"],
