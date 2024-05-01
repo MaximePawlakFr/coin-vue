@@ -1,27 +1,33 @@
-body{
-    background-color: #006076;
-    color:#FFF;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+body {
+  background-color: #006076;
+  color: #fff;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#app {
+  padding-top: 4rem;
+  min-height: 100vh;
 }
 
-input, select {
-    color:#006076;
+input,
+select {
+  color: #006076;
 }
 
-button, input[type="submit"]{
-    background-color: #FFF;
-    color:#006076;
-    padding: 4px 8px;
-    border:1px solid #006076
+button,
+input[type="submit"] {
+  background-color: #fff;
+  color: #006076;
+  padding: 4px 8px;
+  border: 1px solid #006076;
 }
 
-
-button:hover, input[type="submit"]:hover{
-    background-color: #006076;
-    color:#FFF;
-    border-color: #FFF;
+button:hover,
+input[type="submit"]:hover {
+  background-color: #006076;
+  color: #fff;
+  border-color: #fff;
 }
 
-input{
-    padding: 4px 8px;
+input {
+  padding: 4px 8px;
 }
