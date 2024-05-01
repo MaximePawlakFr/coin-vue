@@ -1,8 +1,8 @@
 # Next
 
-- Corriger les inputs (voir prod)
 - Empêcher de soumettre si le formulaire n'est pas complet
-- Change favicon
+- Set better parameters inputs list: search and select
+- Set better station input list
 
 # 2024-05-01
 
@@ -13,6 +13,8 @@
 - Changer le titre du graph avec le nom de la station
 - Set All, None, Example buttons
 - Add transition to button
+- Corriger les inputs (voir prod) => tailwind était chargé avec le main.css
+- Change favicon
 
 # 28
 
