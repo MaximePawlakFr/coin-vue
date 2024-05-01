@@ -41,6 +41,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jsdom", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:24.0.0"],\
             ["pinia", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:2.1.7"],\
             ["plotly.js-dist", "npm:2.31.1"],\
+            ["posthog-js", "npm:1.130.1"],\
             ["prettier", "npm:3.2.5"],\
             ["vite", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:5.2.10"],\
             ["vitest", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:1.5.0"],\
@@ -1971,6 +1972,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jsdom", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:24.0.0"],\
             ["pinia", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:2.1.7"],\
             ["plotly.js-dist", "npm:2.31.1"],\
+            ["posthog-js", "npm:1.130.1"],\
             ["prettier", "npm:3.2.5"],\
             ["vite", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:5.2.10"],\
             ["vitest", "virtual:be61f07b66c37c9c9b8a784b0de8e26723398b6d76c5576f648db8cf2af5012214f1c509ce20ce175c5ba9f41ecee42b9402c5cb321fee196fc247a4a78f5c42#npm:1.5.0"],\
@@ -2682,6 +2684,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["fastq", "npm:1.17.1"],\
             ["reusify", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["fflate", [\
+        ["npm:0.4.8", {\
+          "packageLocation": "./.yarn/cache/fflate-npm-0.4.8-4dd4e91e29-29d8cbe44d.zip/node_modules/fflate/",\
+          "packageDependencies": [\
+            ["fflate", "npm:0.4.8"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4009,6 +4020,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["postcss-selector-parser", "npm:6.0.16"],\
             ["cssesc", "npm:3.0.0"],\
             ["util-deprecate", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["posthog-js", [\
+        ["npm:1.130.1", {\
+          "packageLocation": "./.yarn/cache/posthog-js-npm-1.130.1-96db844105-fe6b181523.zip/node_modules/posthog-js/",\
+          "packageDependencies": [\
+            ["posthog-js", "npm:1.130.1"],\
+            ["fflate", "npm:0.4.8"],\
+            ["preact", "npm:10.21.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["preact", [\
+        ["npm:10.21.0", {\
+          "packageLocation": "./.yarn/cache/preact-npm-10.21.0-7ced4b2c99-04acdd300e.zip/node_modules/preact/",\
+          "packageDependencies": [\
+            ["preact", "npm:10.21.0"]\
           ],\
           "linkType": "HARD"\
         }]\

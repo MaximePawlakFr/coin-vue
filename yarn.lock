@@ -1526,6 +1526,7 @@ __metadata:
     jsdom: ^24.0.0
     pinia: ^2.1.7
     plotly.js-dist: ^2.31.1
+    posthog-js: ^1.130.1
     prettier: ^3.2.5
     vite: ^5.2.8
     vitest: ^1.4.0
@@ -2160,6 +2161,13 @@ __metadata:
   dependencies:
     reusify: ^1.0.4
   checksum: a8c5b26788d5a1763f88bae56a8ddeee579f935a831c5fe7a8268cea5b0a91fbfe705f612209e02d639b881d7b48e461a50da4a10cfaa40da5ca7cc9da098d88
+  languageName: node
+  linkType: hard
+
+"fflate@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "fflate@npm:0.4.8"
+  checksum: 29d8cbe44d5e7f53e7f5a160ac7f9cc025480c7b3bfd85c5f898cbe20dfa2dad4732daa534982664bf30b35896a90af44ea33ede5d94c5ffd1b8b0c0a0a56ca2
   languageName: node
   linkType: hard
 
@@ -3357,6 +3365,23 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.2.0
   checksum: 649f9e60a763ca4b5a7bbec446a069edf07f057f6d780a5a0070576b841538d1ecf7dd888f2fbfd1f76200e26c969e405aeeae66332e6927dbdc8bdcb90b9451
+  languageName: node
+  linkType: hard
+
+"posthog-js@npm:^1.130.1":
+  version: 1.130.1
+  resolution: "posthog-js@npm:1.130.1"
+  dependencies:
+    fflate: ^0.4.8
+    preact: ^10.19.3
+  checksum: fe6b1815237f07b69f1cbfecab9efaf044ff1438b914e44673c80d32a9008540430b2f47b321f32beaaf7feb1c6f69161182e6fd8d0b71a04eeace34e6940d14
+  languageName: node
+  linkType: hard
+
+"preact@npm:^10.19.3":
+  version: 10.21.0
+  resolution: "preact@npm:10.21.0"
+  checksum: 04acdd300e779eec230256d043120e564ac76bb535b05a9b23949f8641bf8e135098d0bd12c008cc4316174469356d09a2326dde6acbd8f539d1b4bf2231cbaa
   languageName: node
   linkType: hard
 

@@ -7,10 +7,21 @@ import {useDailyDataStore} from './stores/dailyData'
 import fiches from "./assets/meteofrance-fiches-stations.js";
 import {  
    stationsColumns, parametersColumns} from "./assets/meteofrance-columns";
-   import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js";
+import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js";
+
+import posthog from 'posthog-js'
+const ENV = import.meta.env;
+
+const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY 
+console.log(ENV) 
+
+// Init only for prod to avoir sending false signals
+if(POSTHOG_KEY){
+  posthog.init(POSTHOG_KEY, { api_host: 'https://eu.i.posthog.com' })
+}
 
 
-  const worker = perspective.worker();
+const worker = perspective.worker();
 
 const graph = ref(null)
 const viewer = ref(null)
@@ -19,6 +30,7 @@ const dailyDataStore  = useDailyDataStore()
 const isDrawing = defineModel('isDrawing', false);
 
 function submit(form) {
+  posthog.capture('my event', { property: 'value' })
   console.log("submit", form)
   isDrawing.value = true;
   return runQuery(form)
@@ -129,6 +141,22 @@ dailyDataStore.setStationsIds(stationsIds.sort())
     </div>
 
   </main>
+  <footer class="flex flex-col items-center justify-center">
+    <div>
+      © All rights Reserverd - Meteo Coin-Coin by Maxime Pawlak 
+    </div>
+      <div>
+        
+      <span :title="ENV.VITE_BUILD_DATE" class="text-sm">
+        v{{ENV.VITE_APP_VERSION}}
+      </span>  
+    </div>
+    <div>
+      <span class="text-xs">
+        {{ENV.VITE_BUILD_DATE}}
+      </span>
+    </div>
+  </footer>
 
 </template>
 

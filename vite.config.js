@@ -1,3 +1,5 @@
+const version = require("./package.json").version;
+
 import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
@@ -17,4 +19,8 @@ export default defineConfig({
   },
   // base: "https://maximepawlakfr.github.io/coin-vue/",
   base: "/coin-vue/",
+  define: {
+    "import.meta.env.VITE_APP_VERSION": JSON.stringify(version),
+    "import.meta.env.VITE_BUILD_DATE": JSON.stringify(new Date().toISOString()),
+  },
 });
