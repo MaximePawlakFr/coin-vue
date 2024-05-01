@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  my-run:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - name: Create .env
         run: |
           touch .env
-          echo VITE_POSTHOG_KEY=${{env.VITE_POSTHOG_KEY}} > .env
+          echo VITE_POSTHOG_KEY=$VITE_POSTHOG_KEY > .env
           cat .env
       - name: Install and Build
         run: yarn install && yarn build
