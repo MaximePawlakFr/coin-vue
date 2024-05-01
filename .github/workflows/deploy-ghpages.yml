@@ -19,8 +19,6 @@ jobs:
       - name: Create .env
         run: |
           touch .env
-          echo VITE_POSTHOG_KEY=${{ env.VITE_POSTHOG_KEY }} > .env
-          echo "VITE_POSTHOG_KEY=${{ vars.VITE_POSTHOG_KEY }}" > .env
           echo VITE_POSTHOG_KEY=${{ vars.VITE_POSTHOG_KEY }} > .env
           cat .env
       - name: Install and Build
