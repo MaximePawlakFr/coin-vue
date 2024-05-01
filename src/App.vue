@@ -30,9 +30,9 @@ const isFetchingData = defineModel("isFetchingData", false)
 const isGraphReady = defineModel("isGraphReady", false)
 
 function submit(form) {
-  posthog.capture("my event", { property: "value" })
+  const { columns, stationName, startDate, endDate } = form
+  posthog.capture("fetchData", { columns, stationName, startDate, endDate })
   console.log("submit", form)
-  const { stationName, startDate, endDate } = form
   isFetchingData.value = true
   return runQuery(form).then((res) => {
     console.log({ res })
