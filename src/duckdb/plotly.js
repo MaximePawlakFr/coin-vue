@@ -12,9 +12,6 @@ export const runQuery = async (form) => {
     data[column] = [];
   });
 
-  const dataRR = [];
-  const dataTN = [];
-  const dataTX = [];
   const dates = [];
   result.toArray().map((row) => {
     const r = row.toJSON();

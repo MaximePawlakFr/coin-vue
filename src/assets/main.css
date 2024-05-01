@@ -31,3 +31,11 @@ input[type="submit"]:hover {
 input {
   padding: 4px 8px;
 }
+
+.h-50-vh {
+  height: 50vh;
+}
+
+.h-75-vh {
+  height: 75vh;
+}

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import HelloWorld from "./components/HelloWorld.vue"
+import Loader from "./components/Loader.vue"
 import * as Plotly from "plotly.js-dist"
 import { runQuery } from "./duckdb/plotly.js"
 import { useDailyDataStore } from "./stores/dailyData"
@@ -36,12 +37,14 @@ function submit(form) {
     console.log({ res })
     const { dates, data } = res
 
-    const workerData = worker.table(data)
-    viewer.value.load(workerData)
-
-    draw(graph.value, dates, data)
     isGraphReady.value = true
     isFetchingData.value = false
+
+    const workerData = worker.table(data)
+    viewer.value.load(workerData)
+    setTimeout(() => {
+      draw(graph.value, dates, data)
+    }, 100)
   })
 }
 
@@ -130,21 +133,23 @@ dailyDataStore.setStationsIds(stationsIds.sort())
   <header class="">
     <h1 class="text-3xl text-center">Meteo 🦆 Coin-Coin 🦆</h1>
   </header>
-  <main class="flex-1 container mx-auto">
-    <div class="">
+  <main class="flex-1 flex flex-col">
+    <div class="container mx-auto">
       <HelloWorld msg="You did it!" @submit="submit" />
+    </div>
 
-      <div v-show="isGraphReady" class="flex flex-col">
-        <div ref="graph" class="h-80"></div>
+    <div class="grow flex flex-col justify-center my-4">
+      <div v-show="isGraphReady && !isFetchingData" class="flex flex-col">
+        <div ref="graph" class="h-75-vh"></div>
         <perspective-viewer ref="viewer" class="h-80"> </perspective-viewer>
       </div>
-      <h3 v-if="isFetchingData">isFetchingData: {{ isFetchingData }}</h3>
+      <Loader v-show="isFetchingData" class="my-4 w-full h-4 flex items-center justify-center" />
     </div>
   </main>
-  <footer class="flex flex-col items-center justify-center text-sm my-2">
+  <footer class="flex flex-col items-center justify-center text-sm text-gray-800 my-2">
     <div>
       <span :title="ENV.VITE_BUILD_DATE" class="text-sm"> v{{ ENV.VITE_APP_VERSION }} </span>
     </div>
-    <div>© All rights Reserved - Meteo Coin-Coin by Maxime Pawlak</div>
+    <div>Copyright © {{ new Date().getFullYear() }} - Meteo Coin-Coin by Maxime Pawlak</div>
   </footer>
 </template>
