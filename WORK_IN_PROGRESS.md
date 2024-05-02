@@ -3,6 +3,12 @@
 - Empêcher de soumettre si le formulaire n'est pas complet
 - Set better parameters inputs list: search and select
 - Set better station input list
+- Rename components HelloWorld
+- Set SEO tags
+
+# 02
+
+- Add groups and datasets
 
 # 2024-05-01
 
