@@ -320,7 +320,7 @@ const toggleStationsNamesDatalist = (show) => {
         <select
           name="formDataset"
           id="formDataset"
-          class="w-full rounded"
+          class="w-full rounded duration-500"
           v-model="formDatasetId"
           required
         >

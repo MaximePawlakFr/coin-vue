@@ -87,9 +87,7 @@ dailyDataStore.setStationsIds(stationsIds.sort())
       CoinCoin <span title="Coin">🦆</span>
     </h1>
     <h2 class="my-8 text-lg font-thin text-center">
-      <span class="my-4 block" title="Coin Coin Coin Coin"
-        >"<em>The weather like a duck</em>".</span
-      >
+      <span class="my-4 block" title="Coin Coin Coin Coin">"<em>The weather like a duck</em>"</span>
       <span>
         Explore weather open-data from all providers:<br />
         Meteo-France, WMO and many more.
