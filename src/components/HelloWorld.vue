@@ -337,7 +337,7 @@ const toggleStationsNamesDatalist = (show) => {
           </optgroup>
         </select>
       </fieldset>
-      <p>
+      <p v-show="formDatasetId">
         <a
           href="https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-quotidiennes/"
           target="_blank"
@@ -379,22 +379,24 @@ const toggleStationsNamesDatalist = (show) => {
         </fieldset>
       </div>
 
-      <div v-show="formDatasetId" class="flex flex-wrap justify-around gap-y-4">
-        <fieldset>
-          <label for="stationsNames" class="mr-2">Station</label>
-          <input
-            type="text"
-            v-model="formStationName"
-            name="stationsNames"
-            id="stationsNames"
-            list="stationsNamesList"
-            autocomplete="off"
-            class="rounded"
-            placeholder="▼ Select a station"
-            @click="updateFilteredStationsNames(true)"
-            @focus="updateFilteredStationsNames(true)"
-            @keyup="updateFilteredStationsNames(false)"
-          />
+      <div v-show="formDatasetId" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
+        <fieldset class="grow sm:grow-0">
+          <div class="flex">
+            <label for="stationsNames" class="mr-2">Station</label>
+            <input
+              type="text"
+              v-model="formStationName"
+              name="stationsNames"
+              id="stationsNames"
+              list="stationsNamesList"
+              autocomplete="off"
+              class="rounded grow"
+              placeholder="▼ Select a station"
+              @click="updateFilteredStationsNames(true)"
+              @focus="updateFilteredStationsNames(true)"
+              @keyup="updateFilteredStationsNames(false)"
+            />
+          </div>
           <div
             ref="stationsNamesDatalist"
             class="datalist rounded"

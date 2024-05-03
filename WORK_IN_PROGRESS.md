@@ -12,6 +12,7 @@
 - Add npm script version:patch
 - Set SEO tags
 - Set responsive
+- Add links to official documentation
 
 # 02
 
