@@ -3,6 +3,7 @@
 - Set better parameters inputs list: search and select
 - Rename components HelloWorld
 - Add a signup button
+- Add French
 
 # 03
 

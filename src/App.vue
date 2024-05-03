@@ -81,11 +81,24 @@ dailyDataStore.setStationsIds(stationsIds.sort())
 
 <template>
   <header class="">
-    <h1 class="text-3xl text-center">Meteo 🦆 CoinCoin 🦆</h1>
+    <h1 class="text-3xl text-center">
+      Meteo
+      <span class="reverse" title="Coin">🦆</span>
+      CoinCoin <span title="Coin">🦆</span>
+    </h1>
+    <h2 class="my-8 text-lg font-thin text-center">
+      <span class="my-4 block" title="Coin Coin Coin Coin"
+        >"<em>The weather like a duck</em>".</span
+      >
+      <span>
+        Explore weather open-data from all providers:<br />
+        Meteo-France, WMO and many more.
+      </span>
+    </h2>
   </header>
   <main class="flex-1 flex flex-col">
     <div class="container mx-auto">
-      <HelloWorld msg="You did it!" @submit="submit" />
+      <HelloWorld @submit="submit" />
     </div>
 
     <div class="grow flex flex-col justify-center my-4">
@@ -103,3 +116,11 @@ dailyDataStore.setStationsIds(stationsIds.sort())
     <div>Copyright © {{ new Date().getFullYear() }} - Meteo CoinCoin by Maxime Pawlak</div>
   </footer>
 </template>
+
+<style computed>
+.reverse {
+  transform: scaleX(-1);
+  width: fit-content;
+  display: inline-block;
+}
+</style>

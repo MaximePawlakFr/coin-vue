@@ -307,9 +307,9 @@ const toggleStationsNamesDatalist = (show) => {
 <template>
   <div>
     <form @submit.prevent="onSubmit" class="">
-      <div class="text-right">
-        <button type="button" @click="onClickExampleButton" class="rounded duration-500">
-          Example
+      <div class="text-center">
+        <button type="button" @click="onClickExampleButton" class="rounded duration-500 px-8">
+          Show me an example
         </button>
       </div>
 
