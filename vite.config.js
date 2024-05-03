@@ -17,7 +17,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  base: "/coin-vue/",
+  base: "/",
   define: {
     "import.meta.env.VITE_APP_VERSION": JSON.stringify(version),
     "import.meta.env.VITE_BUILD_DATE": JSON.stringify(new Date().toISOString()),
