@@ -1,9 +1,14 @@
 # Next
 
-- Empêcher de soumettre si le formulaire n'est pas complet
 - Set better parameters inputs list: search and select
-- Set better station input list
 - Rename components HelloWorld
+- Add a signup button
+
+# 03
+
+- Prevent form to be submitted if not completed
+- Set better station input list
+- Add npm script version:patch
 - Set SEO tags
 
 # 02

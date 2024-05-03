@@ -1,9 +1,16 @@
 {
-  "name": "coin-vue",
+  "name": "meteo-coincoin",
   "version": "0.2.4",
   "private": true,
-  "homepage": "https://github.com/MaximePawlakFr/coin-vue/",
+  "homepage": "https://www.meteo-coincoin.com",
+  "repository": "https://github.com/MaximePawlakFr/meteo-coincoin/",
   "author": "Maxime Pawlak <github.efficient404@passmail.net>",
+  "keywords": [
+    "meteo-france",
+    "coincoin",
+    "open-data",
+    "meteo"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

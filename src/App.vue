@@ -81,7 +81,7 @@ dailyDataStore.setStationsIds(stationsIds.sort())
 
 <template>
   <header class="">
-    <h1 class="text-3xl text-center">Meteo 🦆 Coin-Coin 🦆</h1>
+    <h1 class="text-3xl text-center">Meteo 🦆 CoinCoin 🦆</h1>
   </header>
   <main class="flex-1 flex flex-col">
     <div class="container mx-auto">
@@ -100,6 +100,6 @@ dailyDataStore.setStationsIds(stationsIds.sort())
     <div>
       <span :title="ENV.VITE_BUILD_DATE" class="text-sm"> v{{ ENV.VITE_APP_VERSION }} </span>
     </div>
-    <div>Copyright © {{ new Date().getFullYear() }} - Meteo Coin-Coin by Maxime Pawlak</div>
+    <div>Copyright © {{ new Date().getFullYear() }} - Meteo CoinCoin by Maxime Pawlak</div>
   </footer>
 </template>
