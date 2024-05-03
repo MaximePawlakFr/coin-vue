@@ -11,6 +11,7 @@
 - Set better station input list
 - Add npm script version:patch
 - Set SEO tags
+- Set responsive
 
 # 02
 

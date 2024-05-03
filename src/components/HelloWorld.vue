@@ -320,11 +320,11 @@ const toggleStationsNamesDatalist = (show) => {
         <select
           name="formDataset"
           id="formDataset"
-          class="rounded"
+          class="w-full rounded"
           v-model="formDatasetId"
           required
         >
-          <option value="" disabled>-- Select a dataset --</option>
+          <option value="" disabled>▼ Select a dataset</option>
           <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
             <option
               v-for="item in group.datasets"
@@ -360,7 +360,7 @@ const toggleStationsNamesDatalist = (show) => {
         </fieldset>
       </div>
 
-      <div v-show="formDatasetId" class="flex justify-around">
+      <div v-show="formDatasetId" class="flex flex-wrap justify-around gap-y-4">
         <fieldset>
           <label for="stationsNames" class="mr-2">Station</label>
           <input
@@ -371,7 +371,7 @@ const toggleStationsNamesDatalist = (show) => {
             list="stationsNamesList"
             autocomplete="off"
             class="rounded"
-            placeholder="Select a station ▼"
+            placeholder="▼ Select a station"
             @click="updateFilteredStationsNames(true)"
             @focus="updateFilteredStationsNames(true)"
             @keyup="updateFilteredStationsNames(false)"
@@ -430,6 +430,13 @@ const toggleStationsNamesDatalist = (show) => {
   margin-top: 0.125rem;
   position: absolute;
   z-index: 1;
+}
+
+@media (width <= 640px) {
+  .datalist {
+    left: 4px;
+    width: calc(100% - 8px);
+  }
 }
 
 .datalist .datalist-option {
