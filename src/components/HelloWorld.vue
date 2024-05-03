@@ -120,12 +120,6 @@ const datasetsGroups = [
     name: "Données climatologiques de base",
     datasets: [
       {
-        id: "6569b51ae64326786e4e8e1a",
-        name: "Données climatologiques de base - quotidiennes",
-        url: "https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-quotidiennes",
-        available: true
-      },
-      {
         id: "6569ad61106d1679c93cdf77",
         name: "Données climatologiques de base - 6 minutes",
         url: "https://meteo.data.gouv.fr/datasets/donnees-climatologiques-de-base-6-minutes/",
@@ -136,6 +130,12 @@ const datasetsGroups = [
         name: "Données climatologiques de base - horaires",
         url: "  https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-horaires",
         available: false
+      },
+      {
+        id: "6569b51ae64326786e4e8e1a",
+        name: "Données climatologiques de base - quotidiennes",
+        url: "https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-quotidiennes",
+        available: true
       },
       {
         id: "6569b3d7d193b4daf2b43edc",
@@ -332,7 +332,7 @@ const toggleStationsNamesDatalist = (show) => {
               :key="item.id"
               :disabled="!item.available"
             >
-              {{ item.name }}
+              {{ item.name }} {{ item.available ? "" : "  (bientôt)" }}
             </option>
           </optgroup>
         </select>
