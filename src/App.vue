@@ -4,6 +4,7 @@ import HelloWorld from "./components/HelloWorld.vue"
 import Loader from "./components/Loader.vue"
 import { runQuery } from "./duckdb/dataClient.js"
 import { useDailyDataStore } from "./stores/dailyData"
+import { storeToRefs } from "pinia"
 import fiches from "./assets/meteofrance-fiches-stations.js"
 import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns"
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
@@ -13,7 +14,6 @@ import posthog from "posthog-js"
 const ENV = import.meta.env
 
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
-console.log(ENV)
 
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
@@ -25,21 +25,21 @@ const worker = perspective.worker()
 const graph = ref(null)
 const viewer = ref(null)
 const dailyDataStore = useDailyDataStore()
+const { isFetchingData } = storeToRefs(dailyDataStore)
 
-const isFetchingData = defineModel("isFetchingData", false)
 const isGraphReady = defineModel("isGraphReady", false)
 
 function submit(form) {
   const { columns, stationName, startDate, endDate } = form
   posthog.capture("fetchData", { columns, stationName, startDate, endDate })
   console.log("submit", form)
-  isFetchingData.value = true
+
   return runQuery(form).then((res) => {
     console.log({ res })
     const { dates, data } = res
 
     isGraphReady.value = true
-    isFetchingData.value = false
+    dailyDataStore.setIsFetchingData(false)
 
     const workerData = worker.table(data)
     viewer.value.load(workerData)

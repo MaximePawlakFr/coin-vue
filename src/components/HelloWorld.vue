@@ -3,15 +3,10 @@ import { useDailyDataStore } from "../stores/dailyData"
 import { storeToRefs } from "pinia"
 import CONSTANTS from "../constants"
 import sqlClient from "../duckdb/sqlQueryBuilder"
+import { computed } from "vue"
 
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
-})
 const dailyDataStore = useDailyDataStore()
-const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds } =
+const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds, isFetchingData } =
   storeToRefs(dailyDataStore)
 
 const parquetFilesUrls = CONSTANTS.DAILY_DATA.PARQUET_FILES_URLS
@@ -24,7 +19,7 @@ const defaultStartDateStr = defaultStartDate.toISOString().slice(0, 10) //{...de
 const defaultEndDateStr = new Date().toISOString().slice(0, 10)
 
 const formDatasetId = defineModel("formDatasetId", {
-  default: null
+  default: ""
 })
 
 const formParametersColumns = defineModel("formParametersColumns", {
@@ -38,6 +33,27 @@ const formStartDate = defineModel("formStartDate", {
 })
 const formEndDate = defineModel("formEndDate", {
   default: null
+})
+
+const isFormReadyToSubmit = computed(() => {
+  const errors = []
+  if (isFetchingData.value) {
+    errors.push("isFetchingData")
+  }
+  if (formParametersColumns.value.length <= 0) {
+    errors.push("formParametersColumns")
+  }
+  if (!formStationName.value) {
+    errors.push("formStationName")
+  }
+  if (!formStartDate.value || !formEndDate.value) {
+    errors.push("formStartDate")
+  }
+  console.log("errors", errors)
+  if (errors.length > 0) {
+    return false
+  }
+  return true
 })
 
 formStartDate.value = defaultStartDateStr
@@ -66,7 +82,11 @@ const emit = defineEmits({
 
 function onSubmit() {
   console.log("onSubmit")
+  if (!isFormReadyToSubmit.value) {
+    return
+  }
   const defaultColumns = ["AAAAMMJJ"]
+
   const columns = defaultColumns.concat(formParametersColumns.value)
   const columnsStr = columns.join(", ")
   const filesStr = sqlClient.getUrlsArrayForSQLQuery(parquetFilesUrls)
@@ -76,6 +96,8 @@ function onSubmit() {
 
   const fullQuery = `SELECT ${columnsStr} from read_parquet(${filesStr}) WHERE ${stationNameWhere} AND ${datesWhere} ORDER BY AAAAMMJJ`
   console.log(fullQuery)
+
+  dailyDataStore.setIsFetchingData(true)
 
   emit("submit", {
     query: fullQuery,
@@ -271,7 +293,7 @@ const datasetsGroups = [
           v-model="formDatasetId"
           required
         >
-          <option value="">-- Select a dataset --</option>
+          <option value="" disabled>-- Select a dataset --</option>
           <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
             <option
               v-for="item in group.datasets"
@@ -344,6 +366,7 @@ const datasetsGroups = [
         role="submit"
         v-show="formDatasetId"
         class="w-full my-6 py-4 text-xl rounded duration-500"
+        :disabled="!isFormReadyToSubmit"
       >
         Fetch data
       </button>

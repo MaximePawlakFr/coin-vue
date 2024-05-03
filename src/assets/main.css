@@ -13,6 +13,12 @@ body {
 }
 
 input,
+button,
+select {
+  padding: 4px 8px;
+}
+
+input,
 select {
   color: #006076;
 }
@@ -34,8 +40,11 @@ select:hover {
   border-color: #fff;
 }
 
-input {
-  padding: 4px 8px;
+button:disabled,
+input[type="submit"]:disabled,
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .h-50-vh {

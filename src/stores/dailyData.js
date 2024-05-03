@@ -8,6 +8,8 @@ export const useDailyDataStore = defineStore("dailyData", () => {
   const stationsIds = ref([]);
   const stations = ref([]);
 
+  const isFetchingData = ref(false);
+
   function setArray(refArray, newArray) {
     refArray.value = newArray;
   }
@@ -32,16 +34,22 @@ export const useDailyDataStore = defineStore("dailyData", () => {
     setArray(stations, newArray);
   }
 
+  function setIsFetchingData(newValue) {
+    setArray(isFetchingData, newValue);
+  }
+
   return {
     stationsNames,
     parametersColumns,
     stationsColumns,
     stationsIds,
     stations,
+    isFetchingData,
     setStationsColumns,
     setParametersColumns,
     setStationsNames,
     setStationsIds,
     setStations,
+    setIsFetchingData,
   };
 });
