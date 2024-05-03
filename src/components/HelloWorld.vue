@@ -3,7 +3,7 @@ import { useDailyDataStore } from "../stores/dailyData"
 import { storeToRefs } from "pinia"
 import CONSTANTS from "../constants"
 import sqlClient from "../duckdb/sqlQueryBuilder"
-import { computed } from "vue"
+import { ref, toRaw, computed } from "vue"
 
 const dailyDataStore = useDailyDataStore()
 const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds, isFetchingData } =
@@ -23,10 +23,10 @@ const formDatasetId = defineModel("formDatasetId", {
 })
 
 const formParametersColumns = defineModel("formParametersColumns", {
-  default: []
+  default: ["RR", "TN", "TX", "TM"]
 })
 const formStationName = defineModel("formStationName", {
-  default: null
+  default: ""
 })
 const formStartDate = defineModel("formStartDate", {
   default: null
@@ -34,6 +34,12 @@ const formStartDate = defineModel("formStartDate", {
 const formEndDate = defineModel("formEndDate", {
   default: null
 })
+
+const stationsNamesDatalist = ref(null)
+
+const filteredStationsNames = ref(toRaw(stations.value))
+
+const showStationsNamesDatalist = ref(false)
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -271,6 +277,31 @@ const datasetsGroups = [
     ]
   }
 ]
+
+const updateFilteredStationsNames = (showAll = false) => {
+  if (showAll) {
+    filteredStationsNames.value = stations.value
+  } else {
+    filteredStationsNames.value = stations.value.filter((station) => {
+      const fullName = (station.department + " " + station.name).toLowerCase()
+      return fullName.includes(formStationName.value.toLowerCase())
+    })
+  }
+
+  toggleStationsNamesDatalist(true)
+}
+const onClickStationNameOption = (item) => {
+  formStationName.value = toRaw(item).name
+  toggleStationsNamesDatalist(false)
+}
+
+const toggleStationsNamesDatalist = (show) => {
+  if (show === undefined) {
+    showStationsNamesDatalist.value = !showStationsNamesDatalist.value
+  } else {
+    showStationsNamesDatalist.value = show
+  }
+}
 </script>
 
 <template>
@@ -340,12 +371,26 @@ const datasetsGroups = [
             list="stationsNamesList"
             autocomplete="off"
             class="rounded"
+            placeholder="Select a station ▼"
+            @click="updateFilteredStationsNames(true)"
+            @focus="updateFilteredStationsNames(true)"
+            @keyup="updateFilteredStationsNames(false)"
           />
-          <datalist id="stationsNamesList">
-            <option v-for="item in stations" :value="item.name" :key="item.id">
+          <div
+            ref="stationsNamesDatalist"
+            class="datalist rounded"
+            v-show="showStationsNamesDatalist"
+            @mouseleave="toggleStationsNamesDatalist(false)"
+          >
+            <div
+              class="datalist-option"
+              v-for="item in filteredStationsNames"
+              :key="item.id"
+              @click="onClickStationNameOption(item)"
+            >
               {{ item.department }} - {{ item.name }}
-            </option>
-          </datalist>
+            </div>
+          </div>
         </fieldset>
 
         <div class="flex gap-x-6">
@@ -373,3 +418,26 @@ const datasetsGroups = [
     </form>
   </div>
 </template>
+
+<style computed>
+.datalist {
+  background-color: white;
+  color: #006076;
+  padding: 4px;
+  max-height: 200px;
+  overflow-y: scroll;
+
+  margin-top: 0.125rem;
+  position: absolute;
+  z-index: 1;
+}
+
+.datalist .datalist-option {
+  padding: 0px 4px;
+}
+.datalist .datalist-option:hover {
+  background-color: #006076;
+  color: white;
+  cursor: pointer;
+}
+</style>
