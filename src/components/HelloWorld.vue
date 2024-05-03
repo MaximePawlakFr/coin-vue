@@ -337,12 +337,31 @@ const toggleStationsNamesDatalist = (show) => {
           </optgroup>
         </select>
       </fieldset>
+      <p>
+        <a
+          href="https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-quotidiennes/"
+          target="_blank"
+          class="underline text-sm"
+        >
+          Dataset source
+        </a>
+      </p>
 
       <div v-show="formDatasetId" class="my-6">
         <p>Parameters</p>
-        <button type="button" @click="onClickAllButton" class="rounded duration-500">All</button>
-        <button type="button" @click="onClickNoneButton" class="rounded duration-500">None</button>
-
+        <div class="flex gap-x-2 items-baseline">
+          <button type="button" @click="onClickAllButton" class="rounded duration-500">All</button>
+          <button type="button" @click="onClickNoneButton" class="rounded duration-500">
+            None
+          </button>
+          <a
+            href="https://www.data.gouv.fr/fr/datasets/r/6a8df7e9-45ff-445d-9260-6c65475dda86"
+            target="_blank"
+            class="underline text-sm"
+          >
+            Parameters definition</a
+          >
+        </div>
         <fieldset class="flex flex-wrap">
           <template v-for="item in parametersColumns" :key="item">
             <div class="mx-1">
