@@ -4,6 +4,12 @@
 - Rename components HelloWorld
 - Add a signup button
 - Add French
+- Update daily data
+- Add monthly data
+
+# 04
+
+- Update links to parquet files to stable links
 
 # 03
 
