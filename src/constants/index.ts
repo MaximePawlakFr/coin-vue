@@ -1,8 +1,8 @@
 const DAILY_DATA = {
   PARQUET_FILES_URLS: [
-    "https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-144451/q-previous-1950-rr-t-vent.prepared.parquet",
-    "https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240414-164916/q-1950-2022-rr-t-vent.parquet",
-    "https://static.data.gouv.fr/resources/parquet-donnees-climatologiques-de-base-quotidiennes-format-parquet/20240420-142828/q-2023-2024-rr-t-vent.prepared.parquet",
+    "https://www.data.gouv.fr/fr/datasets/r/9a200903-bb38-401b-a305-30c04af8ddfd",
+    "https://www.data.gouv.fr/fr/datasets/r/dad90fd9-8a0e-4a85-9f3c-8bfb31fc9d5f",
+    "https://www.data.gouv.fr/fr/datasets/r/3a8757ad-81b0-4ac7-a19d-d0e160a086df",
   ],
 };
 
