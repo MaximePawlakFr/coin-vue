@@ -24,7 +24,7 @@ const init = async () => {
   const db = new duckdb.AsyncDuckDB(logger, worker);
 
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
-  console.log({ db });
+  // console.log({ db });
   return db;
 };
 

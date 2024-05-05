@@ -1,12 +1,14 @@
 import { DuckDbFactory } from "./duckdb.js";
 
 export const runQuery = async (form) => {
-  const { query, columns } = form;
+  const { query, columns, dataset } = form;
+
   // Create a new connection
   const db = await DuckDbFactory.getInstance(); //.then((db) => {
   const conn = await db.connect();
-  // Either materialize the query result
+
   const result = await conn.query(query);
+
   const data = {};
   columns.map((column) => {
     data[column] = [];
@@ -15,14 +17,16 @@ export const runQuery = async (form) => {
   const dates = [];
   result.toArray().map((row) => {
     const r = row.toJSON();
-    const { AAAAMMJJ } = r;
+
+    const dateColumn = dataset.columns.date;
+    const dateStr = r[dateColumn];
     columns.map((column) => {
       data[column].push(r[column]);
     });
 
-    const year = ("" + AAAAMMJJ).slice(0, 4);
-    const month = ("" + AAAAMMJJ).slice(4, 6) - 1;
-    const day = ("" + AAAAMMJJ).slice(6, 8);
+    const year = ("" + dateStr).slice(0, 4);
+    const month = ("" + dateStr).slice(4, 6) - 1;
+    const day = ("" + dateStr).slice(6, 8) || "0";
     const date = new Date(year, month, day);
     dates.push(date);
   });

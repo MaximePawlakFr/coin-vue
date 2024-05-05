@@ -1,11 +1,11 @@
 import * as Plotly from "plotly.js-dist";
 
-export const drawPlot = (div, title, dates, data) => {
-  console.log({ data });
+export const drawPlot = (div, title, dates, dateColumn, data) => {
+  // console.log({ dates, data });
   const dataKeys = Object.keys(data);
   const plotlyData = dataKeys
     .map((column) => {
-      if (column !== "AAAAMMJJ") {
+      if (column !== dateColumn) {
         return {
           name: column,
           x: dates,
@@ -34,6 +34,12 @@ export const drawPlot = (div, title, dates, data) => {
             {
               count: 6,
               label: "6m",
+              step: "month",
+              stepmode: "backward",
+            },
+            {
+              count: 12,
+              label: "1y",
               step: "month",
               stepmode: "backward",
             },

@@ -5,7 +5,7 @@ import Loader from "./components/Loader.vue"
 import { runQuery } from "./duckdb/dataClient.js"
 import { useDailyDataStore } from "./stores/dailyData"
 import { storeToRefs } from "pinia"
-import fiches from "./assets/meteofrance-fiches-stations.js"
+import fiches from "./datasets/meteoFrance/fiches-stations.js"
 import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns"
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
 import { drawPlot } from "./utils/plotly"
@@ -30,8 +30,9 @@ const { isFetchingData } = storeToRefs(dailyDataStore)
 const isGraphReady = defineModel("isGraphReady", false)
 
 function submit(form) {
-  const { columns, stationName, startDate, endDate } = form
-  posthog.capture("fetchData", { columns, stationName, startDate, endDate })
+  const { dataset, columns, stationName, startDate, endDate } = form
+  const dateColumn = dataset.columns.date
+  posthog.capture("fetchData", { dataset: dataset.name, columns, stationName, startDate, endDate })
   console.log("submit", form)
 
   return runQuery(form).then((res) => {
@@ -45,7 +46,7 @@ function submit(form) {
     viewer.value.load(workerData)
     setTimeout(() => {
       const title = `${stationName} - ${startDate} -> ${endDate}`
-      drawPlot(graph.value, title, dates, data)
+      drawPlot(graph.value, title, dates, dateColumn, data)
     }, 100)
   })
 }

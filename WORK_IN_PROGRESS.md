@@ -4,6 +4,12 @@
 - Rename components HelloWorld
 - Add a signup button
 - Add French
+- By dataset, show total nb points, min/max date
+- Change date inputs to handle better monthly or hourly data
+- Fix link to parameters definition
+
+# 05
+
 - Update daily data
 - Add monthly data
 
