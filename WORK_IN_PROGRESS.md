@@ -7,6 +7,9 @@
 - By dataset, show total nb points, min/max date
 - Change date inputs to handle better monthly or hourly data
 - Fix link to parameters definition
+- Add daily "autres-parametres"
+- Add messages during data fetching
+- Allow navigating with arrow in list stations
 
 # 05
 

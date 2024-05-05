@@ -1,7 +1,6 @@
 import * as Plotly from "plotly.js-dist";
 
-export const drawPlot = (div, title, dates, dateColumn, data) => {
-  // console.log({ dates, data });
+export const drawPlot = (div, data, dates, dateColumn, title) => {
   const dataKeys = Object.keys(data);
   const plotlyData = dataKeys
     .map((column) => {

@@ -1,17 +1,13 @@
 <script setup>
-import { useDailyDataStore } from "../stores/dailyData"
+import { useDailyDataStore } from "../stores/dailyData.js"
 import { storeToRefs } from "pinia"
-import CONSTANTS from "../constants"
-import sqlClient from "../duckdb/sqlQueryBuilder"
+import sqlClient from "../duckdb/sqlQueryBuilder.js"
 import { ref, toRaw, computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
 
 const dailyDataStore = useDailyDataStore()
 const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds, isFetchingData } =
   storeToRefs(dailyDataStore)
-
-const parquetFilesUrls = CONSTANTS.DAILY_DATA.PARQUET_FILES_URLS
-console.log({ parquetFilesUrls })
 
 const formDataset = defineModel("formDataset", {
   default: null
@@ -88,21 +84,25 @@ const emit = defineEmits({
 })
 
 function onSubmit() {
-  console.log("onSubmit")
   if (!isFormReadyToSubmit.value) {
     return
   }
   const dateColumn = formDataset.value.columns.date
   const defaultColumns = [dateColumn]
-  const dateLength = dateColumn.length
+
   const columns = defaultColumns.concat(formParametersColumns.value)
-  const columnsStr = `"${columns.join('","')}"`
-  const filesStr = sqlClient.getUrlsArrayForSQLQuery(formDataset.value.parquet_urls)
+
+  const columnsStr = sqlClient.getColumnsForSQLQuery(columns)
+  const urlsArray = sqlClient.getUrlsArrayForSQLQuery(formDataset.value.parquet_urls)
 
   const stationNameWhere = `NOM_USUEL='${formStationName.value}'`
-  const datesWhere = `${dateColumn}>=${formStartDate.value.replaceAll("-", "").slice(0, dateLength)} AND ${dateColumn}<=${formEndDate.value.replaceAll("-", "").slice(0, dateLength)}`
+  const datesWhereCondition = sqlClient.getDatesConditionForSQLQuery(
+    dateColumn,
+    formStartDate.value,
+    formEndDate.value
+  )
 
-  const fullQuery = `SELECT ${columnsStr} from read_parquet(${filesStr}) WHERE ${stationNameWhere} AND ${datesWhere} ORDER BY ${dateColumn}`
+  const fullQuery = `SELECT ${columnsStr} from read_parquet(${urlsArray}) WHERE ${stationNameWhere} AND ${datesWhereCondition} ORDER BY ${dateColumn}`
 
   dailyDataStore.setIsFetchingData(true)
 
@@ -276,7 +276,9 @@ const toggleStationsNamesDatalist = (show) => {
   max-height: 200px;
   overflow-y: scroll;
 
+  /*
   margin-top: 0.125rem;
+  */
   position: absolute;
   z-index: 1;
 }
