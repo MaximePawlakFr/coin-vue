@@ -28,6 +28,7 @@ const data = ref(null)
 const dates = ref(null)
 const dateColumn = ref(null)
 const title = ref(0)
+const showModal = ref(false)
 
 const dailyDataStore = useDailyDataStore()
 const { isFetchingData } = storeToRefs(dailyDataStore)
@@ -83,11 +84,34 @@ dailyDataStore.setStationsColumns(stationsColumns)
 dailyDataStore.setParametersColumns(parametersColumns)
 dailyDataStore.setStationsNames(stationsNames.sort())
 dailyDataStore.setStationsIds(stationsIds.sort())
+
+const toggleShowModal = (show = false) => {
+  if (typeof show === "boolean") {
+    showModal.value = show
+  } else {
+    showModal.value = !showModal.value
+  }
+}
+
+const onClickSignUpButton = () => {
+  toggleShowModal(true)
+}
 </script>
 
 <template>
+  <nav class="fixed w-full">
+    <div class="flex justify-between py-4">
+      <div><span class="mx-4 px-8">🦆</span></div>
+      <div>Meteo CoinCoin</div>
+      <div>
+        <button type="button" class="mx-4 rounded duration-500 px-8" @click="onClickSignUpButton">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </nav>
   <header class="">
-    <h1 class="text-3xl text-center">
+    <h1 class="text-6xl text-center">
       Meteo
       <span class="reverse" title="Coin">🦆</span>
       CoinCoin <span title="Coin">🦆</span>
@@ -96,12 +120,13 @@ dailyDataStore.setStationsIds(stationsIds.sort())
       <span class="my-4 block" title="Coin Coin Coin Coin"
         >"<em>Master the weather like a duck</em>"</span
       >
-      <span>
-        Explore weather open-data from all providers:<br />
-        Meteo-France, WMO and many more.
-      </span>
+    </h2>
+    <h2 class="my-16 text-lg font-thin text-center">
+      Explore weather open-data from all providers:<br />
+      Meteo-France, WMO and many more.
     </h2>
   </header>
+
   <main class="flex-1 flex flex-col">
     <div class="container mx-auto">
       <DatasetForm @submit="submit" />
@@ -116,6 +141,19 @@ dailyDataStore.setStationsIds(stationsIds.sort())
     </div>
   </main>
   <AppFooter :app-version="ENV.VITE_APP_VERSION" :build-date="ENV.VITE_BUILD_DATE" />
+
+  <div class="modal" v-show="showModal">
+    <iframe
+      width="540"
+      height="620"
+      src="https://779f7dc9.sibforms.com/serve/MUIFAAX9qwEiw46cJw3UGtQ9Yi5iAkVLGmUlLRypF--OBWhPS-AdjkSPXq92ZqQBCHKQtKvoEofZS56GaA5fWFJ9jjxJw7dCUECOa2GRdLDUGBvXJkPjDj4dnKVq2n4Crn8XsheNWyQw0UAfi3gBa6SBNyWu-u38DNkXsJQElsx7H-tXagyiY1OcXQwATcM-JizOHXYMnUF7Ch4w"
+      frameborder="0"
+      scrolling="auto"
+      allowfullscreen
+      style="display: block; margin-left: auto; margin-right: auto; max-width: 100%"
+    ></iframe>
+    <button type="button" class="modal-btn-close" @click="toggleShowModal(false)">&#x2715;</button>
+  </div>
 </template>
 
 <style computed>
