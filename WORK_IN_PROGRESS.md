@@ -9,12 +9,15 @@
 - Fix link to parameters definition
 - Add daily "autres-parametres"
 - Add messages during data fetching
-- Allow navigating with arrow in list stations
+- bug: when selecting station with key, it does not scroll
+- bug: when selecting station with key, if station is present and click, then the full list is shown. On arrow key pressed, the list is updated to only one and does not reflect the previous one.
 
 # 08
 
 - Add signup modal
 - Add Brevo Conversation
+- Add nav bar
+- Allow navigating with arrow in list stations
 
 # 05
 

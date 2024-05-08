@@ -39,6 +39,7 @@ const stationsNamesDatalist = ref(null)
 const filteredStationsNames = ref(toRaw(stations.value))
 
 const showStationsNamesDatalist = ref(false)
+const activeDataOptionId = ref(null)
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -116,7 +117,13 @@ function onSubmit() {
   })
 }
 
-const updateFilteredStationsNames = (showAll = false) => {
+const updateFilteredStationsNames = (event, showAll = false) => {
+  if (event.keyCode === 13) {
+    // If enter is clicked, do nothing
+    // An option has been selected, no need to update names
+    return
+  }
+
   if (showAll) {
     filteredStationsNames.value = stations.value
   } else {
@@ -126,11 +133,21 @@ const updateFilteredStationsNames = (showAll = false) => {
     })
   }
 
+  // If a click occurs, make active the firs elemnt
+  if (event.type === "click") {
+    const firstOption = filteredStationsNames.value[0]
+    activeDataOptionId.value = firstOption
+  }
   toggleStationsNamesDatalist(true)
 }
-const onClickStationNameOption = (item) => {
-  formStationName.value = toRaw(item).name
+const onClickStationNameOption = (name) => {
+  formStationName.value = name
+
+  // Hide data list
   toggleStationsNamesDatalist(false)
+
+  // Reset active option
+  activeDataOptionId.value = null
 }
 
 const toggleStationsNamesDatalist = (show) => {
@@ -139,6 +156,45 @@ const toggleStationsNamesDatalist = (show) => {
   } else {
     showStationsNamesDatalist.value = show
   }
+}
+const onMouseEnterDataOption = (dataOptionId) => {
+  activeDataOptionId.value = dataOptionId
+}
+
+/**
+ * When arrow down or arrow up is pressed on data list,
+ * update the active item.
+ *
+ * @param arrowType
+ */
+const onKeyUpArrowDataList = (arrowType) => {
+  const index = filteredStationsNames.value.indexOf(activeDataOptionId.value)
+
+  let increment = 0
+  if (arrowType === "arrowUp") {
+    increment = -1
+  } else if (arrowType === "arrowDown") {
+    increment = 1
+  }
+
+  let nextIndex = index + increment
+  if (nextIndex <= 0) {
+    nextIndex = 0
+  } else if (nextIndex >= filteredStationsNames.value.length) {
+    nextIndex = filteredStationsNames.value.length - 1
+  }
+  const nextOption = filteredStationsNames.value[nextIndex]
+
+  activeDataOptionId.value = nextOption
+}
+
+/**
+ * When Enter is pressed on data list,
+ * select the active option as station name.
+ */
+const onKeyEnterDataList = () => {
+  console.log("onKeyEnterDataList", activeDataOptionId.value.name)
+  onClickStationNameOption(activeDataOptionId.value.name)
 }
 </script>
 
@@ -220,9 +276,12 @@ const toggleStationsNamesDatalist = (show) => {
               autocomplete="off"
               class="rounded grow"
               placeholder="▼ Select a station"
-              @click="updateFilteredStationsNames(true)"
-              @focus="updateFilteredStationsNames(true)"
-              @keyup="updateFilteredStationsNames(false)"
+              @click="updateFilteredStationsNames($event, true)"
+              @focus="updateFilteredStationsNames($event, true)"
+              @keyup="updateFilteredStationsNames($event, false)"
+              @keyup.down="onKeyUpArrowDataList('arrowDown')"
+              @keyup.up="onKeyUpArrowDataList('arrowUp')"
+              @keypress.enter.prevent="onKeyEnterDataList()"
             />
           </div>
           <div
@@ -233,9 +292,14 @@ const toggleStationsNamesDatalist = (show) => {
           >
             <div
               class="datalist-option"
+              :class="{
+                active: item == activeDataOptionId,
+                inactive: activeDataOptionId && item != activeDataOptionId
+              }"
               v-for="item in filteredStationsNames"
               :key="item.id"
-              @click="onClickStationNameOption(item)"
+              @click="onClickStationNameOption(item.name)"
+              @mouseenter="onMouseEnterDataOption(item)"
             >
               {{ item.department }} - {{ item.name }}
             </div>
@@ -276,9 +340,8 @@ const toggleStationsNamesDatalist = (show) => {
   max-height: 200px;
   overflow-y: scroll;
 
-  /*
   margin-top: 0.125rem;
-  */
+
   position: absolute;
   z-index: 1;
 }
@@ -293,9 +356,15 @@ const toggleStationsNamesDatalist = (show) => {
 .datalist .datalist-option {
   padding: 0px 4px;
 }
-.datalist .datalist-option:hover {
+.datalist .datalist-option:hover,
+.datalist .datalist-option.active {
   background-color: #006076;
   color: white;
   cursor: pointer;
+}
+.datalist .datalist-option.inactive {
+  color: #006076;
+  background-color: white;
+  cursor: note;
 }
 </style>
