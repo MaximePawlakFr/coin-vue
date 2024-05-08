@@ -11,6 +11,11 @@
 - Add messages during data fetching
 - Allow navigating with arrow in list stations
 
+# 08
+
+- Add signup modal
+- Add Brevo Conversation
+
 # 05
 
 - Update daily data
