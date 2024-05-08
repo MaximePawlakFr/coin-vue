@@ -25,6 +25,9 @@ body {
 nav {
   background-color: #006076;
   z-index: 5;
+  top: 0;
+  left: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 header {
   margin-top: 10rem;
@@ -89,5 +92,5 @@ select:disabled {
 .modal .modal-btn-close {
   top: calc(50vh - 310px);
   position: absolute;
-  right: calc(50vw - 270px);
+  right: max(0px, calc(50vw - 270px));
 }

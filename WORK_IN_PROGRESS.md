@@ -15,6 +15,7 @@
 
 - Add signup modal
 - Add Brevo Conversation
+- Add nav bar
 
 # 05
 

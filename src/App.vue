@@ -100,18 +100,22 @@ const onClickSignUpButton = () => {
 
 <template>
   <nav class="fixed w-full">
-    <div class="flex justify-between py-4">
-      <div><span class="mx-4 px-8">🦆</span></div>
+    <div class="flex justify-between items-baseline p-4">
+      <div><span class="sm:mx-4 sm:px-8">🦆</span></div>
       <div>Meteo CoinCoin</div>
       <div>
-        <button type="button" class="mx-4 rounded duration-500 px-8" @click="onClickSignUpButton">
+        <button
+          type="button"
+          class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
+          @click="onClickSignUpButton"
+        >
           Sign Up
         </button>
       </div>
     </div>
   </nav>
   <header class="">
-    <h1 class="text-6xl text-center">
+    <h1 class="text-2xl sm:text-6xl text-center">
       Meteo
       <span class="reverse" title="Coin">🦆</span>
       CoinCoin <span title="Coin">🦆</span>
@@ -146,7 +150,7 @@ const onClickSignUpButton = () => {
     <iframe
       width="540"
       height="620"
-      src="https://779f7dc9.sibforms.com/serve/MUIFAAX9qwEiw46cJw3UGtQ9Yi5iAkVLGmUlLRypF--OBWhPS-AdjkSPXq92ZqQBCHKQtKvoEofZS56GaA5fWFJ9jjxJw7dCUECOa2GRdLDUGBvXJkPjDj4dnKVq2n4Crn8XsheNWyQw0UAfi3gBa6SBNyWu-u38DNkXsJQElsx7H-tXagyiY1OcXQwATcM-JizOHXYMnUF7Ch4w"
+      src="https://779f7dc9.sibforms.com/serve/MUIFAP2vJsm63z-mqj5GT3yGMRtuv2M4cu6JPMwlmkxZTwcqc-UdPFEv8C2ygSVWd71F_EvSdKSqvoOhsR26_LfW2sAoJyNTuVBeBjvRX8HBHOYXotT1izOkWaVq-Bux2CqvYtpinfHbw9u6XNcCeXMJhnE-jm2bab7c7KlvH-mxIYh5KU1NeQgJ0r0lTwmdQduMgfRaa86J4f2G"
       frameborder="0"
       scrolling="auto"
       allowfullscreen
