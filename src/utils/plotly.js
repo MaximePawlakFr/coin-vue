@@ -1,10 +1,17 @@
 import * as Plotly from "plotly.js-dist";
 
-export const drawPlot = (div, data, dates, dateColumn, title) => {
+export const drawPlot = (
+  div,
+  data,
+  dates,
+  dateColumn,
+  stationColumns,
+  title,
+) => {
   const dataKeys = Object.keys(data);
   const plotlyData = dataKeys
     .map((column) => {
-      if (column !== dateColumn) {
+      if (column !== dateColumn && !stationColumns.includes(column)) {
         return {
           name: column,
           x: dates,

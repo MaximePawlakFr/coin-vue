@@ -89,7 +89,9 @@ function onSubmit() {
     return
   }
   const dateColumn = formDataset.value.columns.date
-  const defaultColumns = [dateColumn]
+  const stationColumns = formDataset.value.columns.station
+
+  const defaultColumns = [...stationColumns, dateColumn]
 
   const columns = defaultColumns.concat(formParametersColumns.value)
 

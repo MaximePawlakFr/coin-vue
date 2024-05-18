@@ -7,8 +7,7 @@ export default {
     "https://www.data.gouv.fr/fr/datasets/r/6a8df7e9-45ff-445d-9260-6c65475dda86",
   columns: {
     date: "AAAAMMJJ",
-    stations: [
-      "AAAAMMJJ",
+    station: [
       "NOM_USUEL",
       "NUM_POSTE",
       "LAT",

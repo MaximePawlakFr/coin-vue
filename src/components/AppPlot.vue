@@ -16,16 +16,17 @@ const props = defineProps({
     }
   },
   dateColumn: String,
+  stationColumns: Array,
   title: String
 })
 
 const graph = ref(null)
 
 watch(props, (a, b) => {
-  const { data, dates, dateColumn, title } = b
-  if (data && dates && dateColumn && title) {
+  const { data, dates, dateColumn, stationColumns, title } = b
+  if (data && dates && dateColumn && stationColumns && title) {
     setTimeout(() => {
-      drawPlot(graph.value, data, dates, dateColumn, title)
+      drawPlot(graph.value, data, dates, dateColumn, stationColumns, title)
     }, 100)
   }
 })

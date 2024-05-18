@@ -27,6 +27,7 @@ const viewer = ref(null)
 const data = ref(null)
 const dates = ref(null)
 const dateColumn = ref(null)
+const stationColumns = ref(null)
 const title = ref(0)
 const showModal = ref(false)
 
@@ -38,7 +39,10 @@ const isGraphReady = ref(false)
 function submit(form) {
   const { dataset, columns, stationName, startDate, endDate } = form
   dateColumn.value = dataset.columns.date
+  stationColumns.value = dataset.columns.station
+
   posthog.capture("fetchData", { dataset: dataset.name, columns, stationName, startDate, endDate })
+
   console.log("submit", form)
   isGraphReady.value = false
 
@@ -60,6 +64,7 @@ function submit(form) {
 const stationsNames = []
 const stationsIds = []
 
+// Init stations
 const stations = fiches.features.map((feature) => {
   const { NOM_USUEL, NUM_POSTE, NUM_DEP } = feature.properties
   stationsNames.push(NOM_USUEL)
@@ -123,7 +128,13 @@ const onClickSignUpButton = () => {
 
     <div class="grow flex flex-col justify-center my-4">
       <div v-show="isGraphReady && !isFetchingData" class="flex flex-col">
-        <AppPlot :data="data" :dates="dates" :dateColumn="dateColumn" :title="title" />
+        <AppPlot
+          :data="data"
+          :dates="dates"
+          :dateColumn="dateColumn"
+          :stationColumns="stationColumns"
+          :title="title"
+        />
         <perspective-viewer ref="viewer" class="h-80"> </perspective-viewer>
       </div>
       <Loader v-show="isFetchingData" class="my-4 w-full h-4 flex items-center justify-center" />
