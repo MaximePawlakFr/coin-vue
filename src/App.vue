@@ -12,7 +12,7 @@ import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
 import posthog from "posthog-js"
 const ENV = import.meta.env
-
+import icons from "./i18n/icons"
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
 
 // Init only for prod to avoir sending false signals
@@ -101,15 +101,26 @@ const onClickSignUpButton = () => {
 <template>
   <nav class="fixed w-full">
     <div class="flex justify-between items-baseline p-4">
-      <div><span class="sm:mx-4 sm:px-8">🦆</span></div>
-      <div>Meteo CoinCoin</div>
-      <div>
+      <div class="basis-1/3"><span class="sm:mx-4 sm:px-8">🦆</span></div>
+      <div class="basis-1/3 text-center">Meteo CoinCoin</div>
+      <div class="basis-1/3 text-right">
+        <div class="locale-changer inline cursor-pointer">
+          <select v-model="$i18n.locale">
+            <option
+              v-for="locale in $i18n.availableLocales"
+              :key="`locale-${locale}`"
+              :value="locale"
+            >
+              {{ icons[locale] }}
+            </option>
+          </select>
+        </div>
         <button
           type="button"
           class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
           @click="onClickSignUpButton"
         >
-          Sign Up
+          {{ $t("message.signup") }}
         </button>
       </div>
     </div>
@@ -122,13 +133,12 @@ const onClickSignUpButton = () => {
     </h1>
     <h2 class="my-8 text-lg font-thin text-center">
       <span class="my-4 block" title="Coin Coin Coin Coin"
-        >"<em>Master the weather like a duck</em>"</span
+        >"<em>{{ $t("message.slogan") }}</em
+        >"</span
       >
     </h2>
-    <h2 class="my-16 text-lg font-thin text-center">
-      Explore weather open-data from all providers:<br />
-      Meteo-France, WMO and many more.
-    </h2>
+
+    <h2 class="my-16 text-lg font-thin text-center" v-html="$t('message.description')"></h2>
   </header>
 
   <main class="flex-1 flex flex-col">
@@ -165,5 +175,9 @@ const onClickSignUpButton = () => {
   transform: scaleX(-1);
   width: fit-content;
   display: inline-block;
+}
+
+.locale-changer select {
+  background-color: var(--color-blue-duck);
 }
 </style>
