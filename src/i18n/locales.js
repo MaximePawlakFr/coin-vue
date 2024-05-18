@@ -17,6 +17,7 @@ export default {
       all: "Tous",
       datasetSource: "Source des données",
       selectADataset: "Selectionner un dataset",
+      premiumOnly: "Réservé aux utilisateurs inscrits",
     },
     brevoForm: {
       title: "Accès Premium",
@@ -57,6 +58,7 @@ export default {
       all: "All",
       datasetSource: "Dataset source",
       selectADataset: "Select a dataset",
+      premiumOnly: "Reserved to premium users",
     },
     brevoForm: {
       title: "Get Premium Access",

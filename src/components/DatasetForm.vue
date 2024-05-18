@@ -225,8 +225,9 @@ const onKeyEnterDataList = () => {
               :value="item"
               :key="item.id"
               :disabled="!item.available"
+              :title="!item.available ? $t('message.premiumOnly') : ''"
             >
-              {{ item.name }} {{ item.available ? "" : "  (bientôt)" }}
+              {{ item.name }} {{ item.available ? "" : " &#128274;" }}
             </option>
           </optgroup>
         </select>
@@ -246,7 +247,7 @@ const onKeyEnterDataList = () => {
           <button type="button" @click="onClickNoneButton" class="rounded duration-500">
             {{ $t("message.none") }}
           </button>
-          <a :href="formDataset?.url" target="_blank" class="underline text-sm">
+          <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
             {{ $t("message.parametersDefinition") }}</a
           >
         </div>
@@ -269,7 +270,7 @@ const onKeyEnterDataList = () => {
 
       <div v-show="formDataset" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
         <fieldset class="grow sm:grow-0">
-          <div class="flex">
+          <div class="flex items-baseline">
             <label for="stationsNames" class="mr-2">{{ $t("message.station") }}</label>
             <input
               type="text"
@@ -310,7 +311,7 @@ const onKeyEnterDataList = () => {
           </div>
         </fieldset>
 
-        <div class="flex gap-x-6">
+        <div class="flex gap-x-6 items-baseline">
           <fieldset>
             <label for="" class="mr-2"> {{ $t("message.from") }}</label>
 
