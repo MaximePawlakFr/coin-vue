@@ -5,7 +5,7 @@ export default {
       "slogan": "Explorer la météo tel un canard",
       "description":
         `Explorer les données météo open-data du monde entier:<br />
-            🗺️ WMO, 🇫🇷 Meteo-France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
+            🗺️ WMO, 🇫🇷 Meteo France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
       showMeExample: "Tester avec un exemple",
       parameters: "Paramètres",
       none: "Aucun",
@@ -45,7 +45,7 @@ export default {
       "signup": "Sign Up",
       "slogan": "Master the weather like a duck",
       "description": `Explore weather open-data from all providers:<br />
-          🗺️ WMO, 🇫🇷 Meteo-France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
+          🗺️ WMO, 🇫🇷 Meteo France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
       "showMeExample": "Show me an example",
       parameters: "Parameters",
       none: "None",

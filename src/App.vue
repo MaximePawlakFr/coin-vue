@@ -12,9 +12,9 @@ import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
 import posthog from "posthog-js"
 const ENV = import.meta.env
-import icons from "./i18n/icons"
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
 import BrevoForm from "./components/BrevoForm.vue"
+import AppNav from "./components/AppNav.vue"
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
   posthog.init(POSTHOG_KEY, { api_host: "https://eu.i.posthog.com" })
@@ -99,32 +99,7 @@ const onClickSignUpButton = () => {
 </script>
 
 <template>
-  <nav class="fixed w-full">
-    <div class="flex justify-between items-baseline p-4">
-      <div class="basis-1/3"><span class="sm:mx-4 sm:px-8">🦆</span></div>
-      <div class="basis-1/3 text-center">Meteo CoinCoin</div>
-      <div class="basis-1/3 text-right">
-        <div class="locale-changer inline cursor-pointer">
-          <select v-model="$i18n.locale">
-            <option
-              v-for="locale in $i18n.availableLocales"
-              :key="`locale-${locale}`"
-              :value="locale"
-            >
-              {{ icons[locale] }}
-            </option>
-          </select>
-        </div>
-        <button
-          type="button"
-          class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
-          @click="onClickSignUpButton"
-        >
-          {{ $t("message.signup") }}
-        </button>
-      </div>
-    </div>
-  </nav>
+  <AppNav @onClickSignUpButton="onClickSignUpButton"></AppNav>
   <header class="">
     <h1 class="text-2xl sm:text-6xl text-center">
       Meteo
