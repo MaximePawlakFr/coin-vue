@@ -10,7 +10,7 @@ const props = defineProps(["appVersion", "buildDate"])
     <div class="flex flex-col items-center sm:flex-row">
       <div>Copyright © {{ new Date().getFullYear() }}</div>
       <div class="hidden sm:block">&nbsp;-&nbsp;</div>
-      <div>Meteo CoinCoin by Maxime Pawlak</div>
+      <div>{{ $t("footer.credits") }}</div>
     </div>
   </footer>
 </template>

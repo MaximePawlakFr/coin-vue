@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-blue-duck: #006076;
+}
+
 html,
 body {
   height: 100%;
 }
 body {
-  background-color: #006076;
+  background-color: var(--color-blue-duck);
   color: #fff;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 0.5rem;
@@ -23,7 +27,7 @@ body {
   min-height: 100vh;
 }
 nav {
-  background-color: #006076;
+  background-color: var(--color-blue-duck);
   z-index: 5;
   top: 0;
   left: 0;
@@ -41,22 +45,22 @@ select {
 
 input,
 select {
-  color: #006076;
+  color: var(--color-blue-duck);
 }
 
 button,
 input[type="submit"],
 select {
   background-color: #fff;
-  color: #006076;
+  color: var(--color-blue-duck);
   padding: 4px 8px;
-  border: 1px solid #006076;
+  border: 1px solid var(--color-blue-duck);
 }
 
 button:hover,
 input[type="submit"]:hover,
 select:hover {
-  background-color: #006076;
+  background-color: var(--color-blue-duck);
   color: #fff;
   border-color: #fff;
 }

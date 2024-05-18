@@ -203,7 +203,7 @@ const onKeyEnterDataList = () => {
     <form @submit.prevent="onSubmit" class="">
       <div class="text-center">
         <button type="button" @click="onClickExampleButton" class="rounded duration-500 px-8">
-          Show me an example
+          {{ $t("message.showMeExample") }}
         </button>
       </div>
 
@@ -218,7 +218,7 @@ const onKeyEnterDataList = () => {
           v-model="formDataset"
           required
         >
-          <option value="" disabled>▼ Select a dataset</option>
+          <option value="" disabled>▼ {{ $t("message.selectADataset") }}</option>
           <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
             <option
               v-for="item in group.datasets"
@@ -232,18 +232,22 @@ const onKeyEnterDataList = () => {
         </select>
       </fieldset>
       <p v-show="formDataset">
-        <a :href="formDataset?.url" target="_blank" class="underline text-sm"> Dataset source </a>
+        <a :href="formDataset?.url" target="_blank" class="underline text-sm">
+          {{ $t("message.datasetSource") }}
+        </a>
       </p>
 
       <div v-show="formDataset" class="my-6">
-        <p>Parameters</p>
+        <p>{{ $t("message.parameters") }}</p>
         <div class="flex gap-x-2 items-baseline">
-          <button type="button" @click="onClickAllButton" class="rounded duration-500">All</button>
+          <button type="button" @click="onClickAllButton" class="rounded duration-500">
+            {{ $t("message.all") }}
+          </button>
           <button type="button" @click="onClickNoneButton" class="rounded duration-500">
-            None
+            {{ $t("message.none") }}
           </button>
           <a :href="formDataset?.url" target="_blank" class="underline text-sm">
-            Parameters definition</a
+            {{ $t("message.parametersDefinition") }}</a
           >
         </div>
         <fieldset class="flex flex-wrap">
@@ -266,7 +270,7 @@ const onKeyEnterDataList = () => {
       <div v-show="formDataset" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
         <fieldset class="grow sm:grow-0">
           <div class="flex">
-            <label for="stationsNames" class="mr-2">Station</label>
+            <label for="stationsNames" class="mr-2">{{ $t("message.station") }}</label>
             <input
               type="text"
               v-model="formStationName"
@@ -308,13 +312,13 @@ const onKeyEnterDataList = () => {
 
         <div class="flex gap-x-6">
           <fieldset>
-            <label for="" class="mr-2">From</label>
+            <label for="" class="mr-2"> {{ $t("message.from") }}</label>
 
             <input type="date" v-model="formStartDate" class="rounded" />
           </fieldset>
 
           <fieldset>
-            <label for="" class="mr-2">To</label>
+            <label for="" class="mr-2"> {{ $t("message.to") }}</label>
             <input type="date" v-model="formEndDate" class="rounded" />
           </fieldset>
         </div>
@@ -326,7 +330,7 @@ const onKeyEnterDataList = () => {
         class="w-full my-6 py-4 text-xl rounded duration-500"
         :disabled="!isFormReadyToSubmit"
       >
-        Fetch data
+        {{ $t("message.fetchData") }}
       </button>
     </form>
   </div>

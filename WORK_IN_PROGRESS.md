@@ -3,7 +3,6 @@
 - Set better parameters inputs list: search and select
 - Rename components HelloWorld
 - Add a signup button
-- Add French
 - By dataset, show total nb points, min/max date
 - Change date inputs to handle better monthly or hourly data
 - Fix link to parameters definition
@@ -11,6 +10,13 @@
 - Add messages during data fetching
 - bug: when selecting station with key, it does not scroll
 - bug: when selecting station with key, if station is present and click, then the full list is shown. On arrow key pressed, the list is updated to only one and does not reflect the previous one.
+- bug:mobile: stations list is reversed
+- apply best practices
+- Move Nav to its own file
+
+# 18
+
+- Add vue-i18n and French translations
 
 # 08
 
