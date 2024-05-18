@@ -14,7 +14,7 @@ import posthog from "posthog-js"
 const ENV = import.meta.env
 import icons from "./i18n/icons"
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
-
+import BrevoForm from "./components/BrevoForm.vue"
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
   posthog.init(POSTHOG_KEY, { api_host: "https://eu.i.posthog.com" })
@@ -157,15 +157,8 @@ const onClickSignUpButton = () => {
   <AppFooter :app-version="ENV.VITE_APP_VERSION" :build-date="ENV.VITE_BUILD_DATE" />
 
   <div class="modal" v-show="showModal">
-    <iframe
-      width="540"
-      height="620"
-      src="https://779f7dc9.sibforms.com/serve/MUIFAP2vJsm63z-mqj5GT3yGMRtuv2M4cu6JPMwlmkxZTwcqc-UdPFEv8C2ygSVWd71F_EvSdKSqvoOhsR26_LfW2sAoJyNTuVBeBjvRX8HBHOYXotT1izOkWaVq-Bux2CqvYtpinfHbw9u6XNcCeXMJhnE-jm2bab7c7KlvH-mxIYh5KU1NeQgJ0r0lTwmdQduMgfRaa86J4f2G"
-      frameborder="0"
-      scrolling="auto"
-      allowfullscreen
-      style="display: block; margin-left: auto; margin-right: auto; max-width: 100%"
-    ></iframe>
+    <BrevoForm></BrevoForm>
+
     <button type="button" class="modal-btn-close" @click="toggleShowModal(false)">&#x2715;</button>
   </div>
 </template>

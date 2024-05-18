@@ -17,6 +17,7 @@
 # 18
 
 - Add vue-i18n and French translations
+- Translate Signup Form
 
 # 08
 
