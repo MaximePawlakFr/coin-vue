@@ -40,6 +40,8 @@ const filteredStationsNames = ref(toRaw(stations.value))
 
 const showStationsNamesDatalist = ref(false)
 const activeDataOptionId = ref(null)
+// Refs to contain dataOption div (height)
+const dataOptionsDivs = ref([])
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -186,8 +188,14 @@ const onKeyUpArrowDataList = (arrowType) => {
     nextIndex = filteredStationsNames.value.length - 1
   }
   const nextOption = filteredStationsNames.value[nextIndex]
-
   activeDataOptionId.value = nextOption
+
+  // Scroll the list until the next div option
+  const nextDivOption = dataOptionsDivs.value[nextIndex]
+  const itemHeight = nextDivOption.clientHeight
+  const totalScroll = itemHeight * nextIndex
+  // Apply the scroll to the parent:
+  stationsNamesDatalist.value.scrollTop = totalScroll
 }
 
 /**
@@ -195,8 +203,9 @@ const onKeyUpArrowDataList = (arrowType) => {
  * select the active option as station name.
  */
 const onKeyEnterDataList = () => {
-  console.log("onKeyEnterDataList", activeDataOptionId.value.name)
-  onClickStationNameOption(activeDataOptionId.value.name)
+  if (activeDataOptionId.value) {
+    onClickStationNameOption(activeDataOptionId.value.name)
+  }
 }
 </script>
 
@@ -307,6 +316,7 @@ const onKeyEnterDataList = () => {
               :key="item.id"
               @click="onClickStationNameOption(item.name)"
               @mouseenter="onMouseEnterDataOption(item)"
+              ref="dataOptionsDivs"
             >
               {{ item.department }} - {{ item.name }}
             </div>
