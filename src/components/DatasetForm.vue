@@ -121,20 +121,19 @@ function onSubmit() {
   })
 }
 
-const updateFilteredStationsNames = (event, showAll = false) => {
+const updateFilteredStationsNames = (event) => {
   if (event.keyCode === 13) {
     // If enter is clicked, do nothing
     // An option has been selected, no need to update names
     return
   }
-
-  if (showAll) {
-    filteredStationsNames.value = stations.value
-  } else {
+  if (formStationName.value) {
     filteredStationsNames.value = stations.value.filter((station) => {
       const fullName = (station.department + " " + station.name).toLowerCase()
       return fullName.includes(formStationName.value.toLowerCase())
     })
+  } else {
+    filteredStationsNames.value = stations.value
   }
 
   // If a click occurs, make active the firs elemnt
@@ -292,9 +291,9 @@ const onKeyEnterDataList = () => {
               autocomplete="off"
               class="rounded grow"
               placeholder="▼ Select a station"
-              @click="updateFilteredStationsNames($event, true)"
-              @focus="updateFilteredStationsNames($event, true)"
-              @keyup="updateFilteredStationsNames($event, false)"
+              @click="updateFilteredStationsNames($event)"
+              @focus="updateFilteredStationsNames($event)"
+              @keyup="updateFilteredStationsNames($event)"
               @keyup.down="onKeyUpArrowDataList('arrowDown')"
               @keyup.up="onKeyUpArrowDataList('arrowUp')"
               @keypress.enter.prevent="onKeyEnterDataList()"

@@ -5,7 +5,6 @@
 - Change date inputs to handle better monthly or hourly data
 - Add daily "autres-parametres"
 - Add messages during data fetching
-- bug: when selecting station with key, if station is present and click, then the full list is shown. On arrow key pressed, the list is updated to only one and does not reflect the previous one.
 - bug:mobile: stations list is reversed
 - apply best practices
 
@@ -19,6 +18,7 @@
 - Add "reserved" title
 - Display station attributes in array but not in graph
 - bug: when selecting station with key, it does not scroll
+- bug: when selecting station with key, if station is present and click, then the full list is shown. On arrow key pressed, the list is updated to only one and does not reflect the previous one.
 
 # 08
 
