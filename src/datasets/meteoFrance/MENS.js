@@ -3,9 +3,11 @@ export default {
   name: "Données climatologiques de base - mensuelles",
   url:
     "https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-mensuelles",
+  documentationUrl:
+    "https://www.data.gouv.fr/fr/datasets/r/6d4ac560-8f7c-477f-9a3f-3c33137fc04e",
   columns: {
     date: "AAAAMM",
-    stations: ["NOM_USUEL", "NUM_POSTE", "LAT", "LON", "ALTI", "AAAAMM"],
+    station: ["NOM_USUEL", "NUM_POSTE", "LAT", "LON", "ALTI"],
     defaultParameters: ["RR", "TN", "TX", "TM"],
     parameters: [
       "RR",

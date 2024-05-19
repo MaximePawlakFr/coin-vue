@@ -10,7 +10,7 @@ const getStationsNamesAndIdsQuery = (filesUrls) => {
     filesUrls,
   );
   //   return `SELECT NOM_USUEL, NUM_POSTE FROM read_parquet(${filesAsString}) GROUP BY NUM_POSTE, NOM_USUEL ORDER BY NOM_USUEL`;
-  return `SELECT DISTINCT NOM_USUEL FROM read_parquet(${filesAsString}) NOM_USUEL`;
+  return `SELECT DISTINCT NOM_USUEL FROM read_parquet(${filesAsString}) ORDER BY NOM_USUEL`;
 };
 
 const getUrlsArrayForSQLQuery = (array) => {

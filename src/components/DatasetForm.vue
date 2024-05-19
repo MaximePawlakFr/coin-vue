@@ -40,6 +40,8 @@ const filteredStationsNames = ref(toRaw(stations.value))
 
 const showStationsNamesDatalist = ref(false)
 const activeDataOptionId = ref(null)
+// Refs to contain dataOption div (height)
+const dataOptionsDivs = ref([])
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -89,7 +91,9 @@ function onSubmit() {
     return
   }
   const dateColumn = formDataset.value.columns.date
-  const defaultColumns = [dateColumn]
+  const stationColumns = formDataset.value.columns.station
+
+  const defaultColumns = [...stationColumns, dateColumn]
 
   const columns = defaultColumns.concat(formParametersColumns.value)
 
@@ -117,20 +121,19 @@ function onSubmit() {
   })
 }
 
-const updateFilteredStationsNames = (event, showAll = false) => {
+const updateFilteredStationsNames = (event) => {
   if (event.keyCode === 13) {
     // If enter is clicked, do nothing
     // An option has been selected, no need to update names
     return
   }
-
-  if (showAll) {
-    filteredStationsNames.value = stations.value
-  } else {
+  if (formStationName.value) {
     filteredStationsNames.value = stations.value.filter((station) => {
       const fullName = (station.department + " " + station.name).toLowerCase()
       return fullName.includes(formStationName.value.toLowerCase())
     })
+  } else {
+    filteredStationsNames.value = stations.value
   }
 
   // If a click occurs, make active the firs elemnt
@@ -184,8 +187,14 @@ const onKeyUpArrowDataList = (arrowType) => {
     nextIndex = filteredStationsNames.value.length - 1
   }
   const nextOption = filteredStationsNames.value[nextIndex]
-
   activeDataOptionId.value = nextOption
+
+  // Scroll the list until the next div option
+  const nextDivOption = dataOptionsDivs.value[nextIndex]
+  const itemHeight = nextDivOption.clientHeight
+  const totalScroll = itemHeight * nextIndex
+  // Apply the scroll to the parent:
+  stationsNamesDatalist.value.scrollTop = totalScroll
 }
 
 /**
@@ -193,8 +202,9 @@ const onKeyUpArrowDataList = (arrowType) => {
  * select the active option as station name.
  */
 const onKeyEnterDataList = () => {
-  console.log("onKeyEnterDataList", activeDataOptionId.value.name)
-  onClickStationNameOption(activeDataOptionId.value.name)
+  if (activeDataOptionId.value) {
+    onClickStationNameOption(activeDataOptionId.value.name)
+  }
 }
 </script>
 
@@ -225,8 +235,9 @@ const onKeyEnterDataList = () => {
               :value="item"
               :key="item.id"
               :disabled="!item.available"
+              :title="!item.available ? $t('message.premiumOnly') : ''"
             >
-              {{ item.name }} {{ item.available ? "" : "  (bientôt)" }}
+              {{ item.name }} {{ item.available ? "" : " &#128274;" }}
             </option>
           </optgroup>
         </select>
@@ -246,7 +257,7 @@ const onKeyEnterDataList = () => {
           <button type="button" @click="onClickNoneButton" class="rounded duration-500">
             {{ $t("message.none") }}
           </button>
-          <a :href="formDataset?.url" target="_blank" class="underline text-sm">
+          <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
             {{ $t("message.parametersDefinition") }}</a
           >
         </div>
@@ -269,7 +280,7 @@ const onKeyEnterDataList = () => {
 
       <div v-show="formDataset" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
         <fieldset class="grow sm:grow-0">
-          <div class="flex">
+          <div class="flex items-baseline">
             <label for="stationsNames" class="mr-2">{{ $t("message.station") }}</label>
             <input
               type="text"
@@ -280,9 +291,9 @@ const onKeyEnterDataList = () => {
               autocomplete="off"
               class="rounded grow"
               placeholder="▼ Select a station"
-              @click="updateFilteredStationsNames($event, true)"
-              @focus="updateFilteredStationsNames($event, true)"
-              @keyup="updateFilteredStationsNames($event, false)"
+              @click="updateFilteredStationsNames($event)"
+              @focus="updateFilteredStationsNames($event)"
+              @keyup="updateFilteredStationsNames($event)"
               @keyup.down="onKeyUpArrowDataList('arrowDown')"
               @keyup.up="onKeyUpArrowDataList('arrowUp')"
               @keypress.enter.prevent="onKeyEnterDataList()"
@@ -304,13 +315,14 @@ const onKeyEnterDataList = () => {
               :key="item.id"
               @click="onClickStationNameOption(item.name)"
               @mouseenter="onMouseEnterDataOption(item)"
+              ref="dataOptionsDivs"
             >
               {{ item.department }} - {{ item.name }}
             </div>
           </div>
         </fieldset>
 
-        <div class="flex gap-x-6">
+        <div class="flex gap-x-6 items-baseline">
           <fieldset>
             <label for="" class="mr-2"> {{ $t("message.from") }}</label>
 

@@ -12,9 +12,9 @@ import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
 import posthog from "posthog-js"
 const ENV = import.meta.env
-import icons from "./i18n/icons"
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
-
+import BrevoForm from "./components/BrevoForm.vue"
+import AppNav from "./components/AppNav.vue"
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
   posthog.init(POSTHOG_KEY, { api_host: "https://eu.i.posthog.com" })
@@ -27,6 +27,7 @@ const viewer = ref(null)
 const data = ref(null)
 const dates = ref(null)
 const dateColumn = ref(null)
+const stationColumns = ref(null)
 const title = ref(0)
 const showModal = ref(false)
 
@@ -38,7 +39,10 @@ const isGraphReady = ref(false)
 function submit(form) {
   const { dataset, columns, stationName, startDate, endDate } = form
   dateColumn.value = dataset.columns.date
+  stationColumns.value = dataset.columns.station
+
   posthog.capture("fetchData", { dataset: dataset.name, columns, stationName, startDate, endDate })
+
   console.log("submit", form)
   isGraphReady.value = false
 
@@ -60,6 +64,7 @@ function submit(form) {
 const stationsNames = []
 const stationsIds = []
 
+// Init stations
 const stations = fiches.features.map((feature) => {
   const { NOM_USUEL, NUM_POSTE, NUM_DEP } = feature.properties
   stationsNames.push(NOM_USUEL)
@@ -99,32 +104,7 @@ const onClickSignUpButton = () => {
 </script>
 
 <template>
-  <nav class="fixed w-full">
-    <div class="flex justify-between items-baseline p-4">
-      <div class="basis-1/3"><span class="sm:mx-4 sm:px-8">🦆</span></div>
-      <div class="basis-1/3 text-center">Meteo CoinCoin</div>
-      <div class="basis-1/3 text-right">
-        <div class="locale-changer inline cursor-pointer">
-          <select v-model="$i18n.locale">
-            <option
-              v-for="locale in $i18n.availableLocales"
-              :key="`locale-${locale}`"
-              :value="locale"
-            >
-              {{ icons[locale] }}
-            </option>
-          </select>
-        </div>
-        <button
-          type="button"
-          class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
-          @click="onClickSignUpButton"
-        >
-          {{ $t("message.signup") }}
-        </button>
-      </div>
-    </div>
-  </nav>
+  <AppNav @onClickSignUpButton="onClickSignUpButton"></AppNav>
   <header class="">
     <h1 class="text-2xl sm:text-6xl text-center">
       Meteo
@@ -148,7 +128,13 @@ const onClickSignUpButton = () => {
 
     <div class="grow flex flex-col justify-center my-4">
       <div v-show="isGraphReady && !isFetchingData" class="flex flex-col">
-        <AppPlot :data="data" :dates="dates" :dateColumn="dateColumn" :title="title" />
+        <AppPlot
+          :data="data"
+          :dates="dates"
+          :dateColumn="dateColumn"
+          :stationColumns="stationColumns"
+          :title="title"
+        />
         <perspective-viewer ref="viewer" class="h-80"> </perspective-viewer>
       </div>
       <Loader v-show="isFetchingData" class="my-4 w-full h-4 flex items-center justify-center" />
@@ -157,15 +143,8 @@ const onClickSignUpButton = () => {
   <AppFooter :app-version="ENV.VITE_APP_VERSION" :build-date="ENV.VITE_BUILD_DATE" />
 
   <div class="modal" v-show="showModal">
-    <iframe
-      width="540"
-      height="620"
-      src="https://779f7dc9.sibforms.com/serve/MUIFAP2vJsm63z-mqj5GT3yGMRtuv2M4cu6JPMwlmkxZTwcqc-UdPFEv8C2ygSVWd71F_EvSdKSqvoOhsR26_LfW2sAoJyNTuVBeBjvRX8HBHOYXotT1izOkWaVq-Bux2CqvYtpinfHbw9u6XNcCeXMJhnE-jm2bab7c7KlvH-mxIYh5KU1NeQgJ0r0lTwmdQduMgfRaa86J4f2G"
-      frameborder="0"
-      scrolling="auto"
-      allowfullscreen
-      style="display: block; margin-left: auto; margin-right: auto; max-width: 100%"
-    ></iframe>
+    <BrevoForm></BrevoForm>
+
     <button type="button" class="modal-btn-close" @click="toggleShowModal(false)">&#x2715;</button>
   </div>
 </template>
