@@ -6,8 +6,7 @@ import { ref, toRaw, computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
 
 const dailyDataStore = useDailyDataStore()
-const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds, isFetchingData } =
-  storeToRefs(dailyDataStore)
+const { stations, isFetchingData } = storeToRefs(dailyDataStore)
 
 const formDataset = defineModel("formDataset", {
   default: null
@@ -90,24 +89,26 @@ function onSubmit() {
   if (!isFormReadyToSubmit.value) {
     return
   }
+  // Concat date, station and parameters columns
   const dateColumn = formDataset.value.columns.date
   const stationColumns = formDataset.value.columns.station
 
-  const defaultColumns = [...stationColumns, dateColumn]
+  const columns = [dateColumn, ...stationColumns, ...formParametersColumns.value]
 
-  const columns = defaultColumns.concat(formParametersColumns.value)
+  const parquetUrls = formDataset.value.parquet_urls
+  const stationName = formStationName.value
 
-  const columnsStr = sqlClient.getColumnsForSQLQuery(columns)
-  const urlsArray = sqlClient.getUrlsArrayForSQLQuery(formDataset.value.parquet_urls)
+  const startDate = formStartDate.value
+  const endDate = formEndDate.value
 
-  const stationNameWhere = `NOM_USUEL='${formStationName.value}'`
-  const datesWhereCondition = sqlClient.getDatesConditionForSQLQuery(
+  const fullQuery = sqlClient.buildQuery(
+    columns,
+    parquetUrls,
+    stationName,
     dateColumn,
-    formStartDate.value,
-    formEndDate.value
+    startDate,
+    endDate
   )
-
-  const fullQuery = `SELECT ${columnsStr} from read_parquet(${urlsArray}) WHERE ${stationNameWhere} AND ${datesWhereCondition} ORDER BY ${dateColumn}`
 
   dailyDataStore.setIsFetchingData(true)
 

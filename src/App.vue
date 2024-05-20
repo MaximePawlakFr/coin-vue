@@ -78,17 +78,13 @@ const stations = fiches.features.map((feature) => {
   return station
 })
 stations.sort((a, b) => {
-  if (a.NUM_DEP >= b.NUM_DEP) {
+  if (a.id >= b.id) {
     return 1
   } else {
     return -1
   }
 })
 dailyDataStore.setStations(stations)
-dailyDataStore.setStationsColumns(stationsColumns)
-dailyDataStore.setParametersColumns(parametersColumns)
-dailyDataStore.setStationsNames(stationsNames.sort())
-dailyDataStore.setStationsIds(stationsIds.sort())
 
 const toggleShowModal = (show = false) => {
   if (typeof show === "boolean") {

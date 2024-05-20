@@ -42,10 +42,34 @@ const getDatesConditionForSQLQuery = (dateColumn, startDate, endDate) => {
   return datesCondition;
 };
 
+const buildQuery = (
+  columns,
+  parquerUrls,
+  stationName,
+  dateColumn,
+  startDate,
+  endDate,
+) => {
+  const columnsStr = getColumnsForSQLQuery(columns);
+  const urlsArray = getUrlsArrayForSQLQuery(parquerUrls);
+
+  const stationNameWhere = `NOM_USUEL='${stationName}'`;
+  const datesWhereCondition = getDatesConditionForSQLQuery(
+    dateColumn,
+    startDate,
+    endDate,
+  );
+
+  const fullQuery =
+    `SELECT ${columnsStr} from read_parquet(${urlsArray}) WHERE ${stationNameWhere} AND ${datesWhereCondition} ORDER BY ${dateColumn}`;
+  return fullQuery;
+};
+
 export default {
   getColumnsQuery,
   getUrlsArrayForSQLQuery,
   getColumnsForSQLQuery,
   getDatesConditionForSQLQuery,
   getStationsNamesAndIdsQuery,
+  buildQuery,
 };
