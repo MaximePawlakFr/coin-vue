@@ -5,8 +5,13 @@
 - Change date inputs to handle better monthly or hourly data
 - Add daily "autres-parametres"
 - Add messages during data fetching
-- bug:mobile: stations list is reversed
 - apply best practices
+- bug: station list on first click is very long
+
+# 19
+
+- bug:mobile: stations list is reversed
+- clean dataStore about stations and parameters
 
 # 18
 
