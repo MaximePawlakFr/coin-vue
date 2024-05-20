@@ -2,7 +2,7 @@
 import { useDailyDataStore } from "../stores/dailyData.js"
 import { storeToRefs } from "pinia"
 import sqlClient from "../duckdb/sqlQueryBuilder.js"
-import { ref, toRaw, computed } from "vue"
+import { ref, computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
 
 const dailyDataStore = useDailyDataStore()
@@ -18,6 +18,7 @@ const formParametersColumns = defineModel("formParametersColumns", {
 const formStationName = defineModel("formStationName", {
   default: ""
 })
+
 const formStartDate = defineModel("formStartDate", {
   default: null
 })
@@ -35,12 +36,27 @@ formEndDate.value = defaultEndDateStr
 
 const stationsNamesDatalist = ref(null)
 
-const filteredStationsNames = ref(toRaw(stations.value))
+// When formStatioName changes, it computes 'filteredStationsNames'
+// Fixme : it takes a long time to update with more than 2000 entries
+const filteredStationsNames = computed(() => {
+  const query = formStationName.value.toLowerCase()
+
+  if (formStationName.value) {
+    const filteredStationsNames = stations.value.filter((station) => {
+      const fullName = (station.department + " " + station.name).toLowerCase()
+      return fullName.includes(query)
+    })
+
+    return filteredStationsNames
+  } else {
+    return stations.value
+  }
+})
 
 const showStationsNamesDatalist = ref(false)
 const activeDataOptionId = ref(null)
 // Refs to contain dataOption div (height)
-const dataOptionsDivs = ref([])
+const dataOptionsRefs = ref([])
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -121,29 +137,16 @@ function onSubmit() {
     endDate: formEndDate.value
   })
 }
+const onClickStationNameInput = (event) => {
+  toggleStationsNamesDatalist(true)
 
-const updateFilteredStationsNames = (event) => {
-  if (event.keyCode === 13) {
-    // If enter is clicked, do nothing
-    // An option has been selected, no need to update names
-    return
-  }
-  if (formStationName.value) {
-    filteredStationsNames.value = stations.value.filter((station) => {
-      const fullName = (station.department + " " + station.name).toLowerCase()
-      return fullName.includes(formStationName.value.toLowerCase())
-    })
-  } else {
-    filteredStationsNames.value = stations.value
-  }
-
-  // If a click occurs, make active the firs elemnt
-  if (event.type === "click") {
+  // If a click occurs, make active the first elemnt
+  if (event?.type === "click") {
     const firstOption = filteredStationsNames.value[0]
     activeDataOptionId.value = firstOption
   }
-  toggleStationsNamesDatalist(true)
 }
+
 const onClickStationNameOption = (name) => {
   formStationName.value = name
 
@@ -191,7 +194,7 @@ const onKeyUpArrowDataList = (arrowType) => {
   activeDataOptionId.value = nextOption
 
   // Scroll the list until the next div option
-  const nextDivOption = dataOptionsDivs.value[nextIndex]
+  const nextDivOption = dataOptionsRefs.value[nextIndex]
   const itemHeight = nextDivOption.clientHeight
   const totalScroll = itemHeight * nextIndex
   // Apply the scroll to the parent:
@@ -291,10 +294,9 @@ const onKeyEnterDataList = () => {
               list="stationsNamesList"
               autocomplete="off"
               class="rounded grow"
-              placeholder="▼ Select a station"
-              @click="updateFilteredStationsNames($event)"
-              @focus="updateFilteredStationsNames($event)"
-              @keyup="updateFilteredStationsNames($event)"
+              :placeholder="$t('message.selectAStation')"
+              @click="onClickStationNameInput($event)"
+              @focus="onClickStationNameInput($event)"
               @keyup.down="onKeyUpArrowDataList('arrowDown')"
               @keyup.up="onKeyUpArrowDataList('arrowUp')"
               @keypress.enter.prevent="onKeyEnterDataList()"
@@ -316,7 +318,7 @@ const onKeyEnterDataList = () => {
               :key="item.id"
               @click="onClickStationNameOption(item.name)"
               @mouseenter="onMouseEnterDataOption(item)"
-              ref="dataOptionsDivs"
+              ref="dataOptionsRefs"
             >
               {{ item.department }} - {{ item.name }}
             </div>

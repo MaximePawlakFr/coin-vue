@@ -8,7 +8,6 @@ import { runQuery } from "./duckdb/dataClient.js"
 import { useDailyDataStore } from "./stores/dailyData"
 import { storeToRefs } from "pinia"
 import fiches from "./datasets/meteoFrance/fiches-stations.js"
-import { stationsColumns, parametersColumns } from "./assets/meteofrance-columns"
 import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cdn/perspective.js"
 import posthog from "posthog-js"
 const ENV = import.meta.env

@@ -17,6 +17,7 @@ export default {
       all: "Tous",
       datasetSource: "Source des données",
       selectADataset: "Selectionner un dataset",
+      selectAStation: "▼ Sélectionner une station",
       premiumOnly: "Réservé aux utilisateurs inscrits",
     },
     brevoForm: {
@@ -58,6 +59,7 @@ export default {
       all: "All",
       datasetSource: "Dataset source",
       selectADataset: "Select a dataset",
+      selectAStation: "▼ Select a station",
       premiumOnly: "Reserved to premium users",
     },
     brevoForm: {
