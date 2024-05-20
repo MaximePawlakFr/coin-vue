@@ -12,6 +12,7 @@
 
 - bug:mobile: stations list is reversed
 - clean dataStore about stations and parameters
+- refactor sqlClient
 
 # 18
 
