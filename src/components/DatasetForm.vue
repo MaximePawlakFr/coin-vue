@@ -6,8 +6,7 @@ import { ref, toRaw, computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
 
 const dailyDataStore = useDailyDataStore()
-const { stations, stationsNames, parametersColumns, stationsColumns, stationsIds, isFetchingData } =
-  storeToRefs(dailyDataStore)
+const { stations, isFetchingData } = storeToRefs(dailyDataStore)
 
 const formDataset = defineModel("formDataset", {
   default: null
