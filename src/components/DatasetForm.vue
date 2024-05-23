@@ -2,8 +2,9 @@
 import { useDailyDataStore } from "../stores/dailyData.js"
 import { storeToRefs } from "pinia"
 import sqlClient from "../duckdb/sqlQueryBuilder.js"
-import { ref, toRaw, computed } from "vue"
+import { computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
+import InputTextWithDataList from "./InputTextWithDataList.vue"
 
 const dailyDataStore = useDailyDataStore()
 const { stations, isFetchingData } = storeToRefs(dailyDataStore)
@@ -18,6 +19,7 @@ const formParametersColumns = defineModel("formParametersColumns", {
 const formStationName = defineModel("formStationName", {
   default: ""
 })
+
 const formStartDate = defineModel("formStartDate", {
   default: null
 })
@@ -32,15 +34,6 @@ const formEndDate = defineModel("formEndDate", {
 })
 const defaultEndDateStr = new Date().toISOString().slice(0, 10)
 formEndDate.value = defaultEndDateStr
-
-const stationsNamesDatalist = ref(null)
-
-const filteredStationsNames = ref(toRaw(stations.value))
-
-const showStationsNamesDatalist = ref(false)
-const activeDataOptionId = ref(null)
-// Refs to contain dataOption div (height)
-const dataOptionsDivs = ref([])
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -121,92 +114,6 @@ function onSubmit() {
     endDate: formEndDate.value
   })
 }
-
-const updateFilteredStationsNames = (event) => {
-  if (event.keyCode === 13) {
-    // If enter is clicked, do nothing
-    // An option has been selected, no need to update names
-    return
-  }
-  if (formStationName.value) {
-    filteredStationsNames.value = stations.value.filter((station) => {
-      const fullName = (station.department + " " + station.name).toLowerCase()
-      return fullName.includes(formStationName.value.toLowerCase())
-    })
-  } else {
-    filteredStationsNames.value = stations.value
-  }
-
-  // If a click occurs, make active the firs elemnt
-  if (event.type === "click") {
-    const firstOption = filteredStationsNames.value[0]
-    activeDataOptionId.value = firstOption
-  }
-  toggleStationsNamesDatalist(true)
-}
-const onClickStationNameOption = (name) => {
-  formStationName.value = name
-
-  // Hide data list
-  toggleStationsNamesDatalist(false)
-
-  // Reset active option
-  activeDataOptionId.value = null
-}
-
-const toggleStationsNamesDatalist = (show) => {
-  if (show === undefined) {
-    showStationsNamesDatalist.value = !showStationsNamesDatalist.value
-  } else {
-    showStationsNamesDatalist.value = show
-  }
-}
-const onMouseEnterDataOption = (dataOptionId) => {
-  activeDataOptionId.value = dataOptionId
-}
-
-/**
- * When arrow down or arrow up is pressed on data list,
- * update the active item.
- *
- * @param arrowType
- */
-const onKeyUpArrowDataList = (arrowType) => {
-  const index = filteredStationsNames.value.indexOf(activeDataOptionId.value)
-
-  let increment = 0
-  if (arrowType === "arrowUp") {
-    increment = -1
-  } else if (arrowType === "arrowDown") {
-    increment = 1
-  }
-
-  let nextIndex = index + increment
-  if (nextIndex <= 0) {
-    nextIndex = 0
-  } else if (nextIndex >= filteredStationsNames.value.length) {
-    nextIndex = filteredStationsNames.value.length - 1
-  }
-  const nextOption = filteredStationsNames.value[nextIndex]
-  activeDataOptionId.value = nextOption
-
-  // Scroll the list until the next div option
-  const nextDivOption = dataOptionsDivs.value[nextIndex]
-  const itemHeight = nextDivOption.clientHeight
-  const totalScroll = itemHeight * nextIndex
-  // Apply the scroll to the parent:
-  stationsNamesDatalist.value.scrollTop = totalScroll
-}
-
-/**
- * When Enter is pressed on data list,
- * select the active option as station name.
- */
-const onKeyEnterDataList = () => {
-  if (activeDataOptionId.value) {
-    onClickStationNameOption(activeDataOptionId.value.name)
-  }
-}
 </script>
 
 <template>
@@ -281,46 +188,10 @@ const onKeyEnterDataList = () => {
 
       <div v-show="formDataset" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
         <fieldset class="grow sm:grow-0">
-          <div class="flex items-baseline">
-            <label for="stationsNames" class="mr-2">{{ $t("message.station") }}</label>
-            <input
-              type="text"
-              v-model="formStationName"
-              name="stationsNames"
-              id="stationsNames"
-              list="stationsNamesList"
-              autocomplete="off"
-              class="rounded grow"
-              placeholder="▼ Select a station"
-              @click="updateFilteredStationsNames($event)"
-              @focus="updateFilteredStationsNames($event)"
-              @keyup="updateFilteredStationsNames($event)"
-              @keyup.down="onKeyUpArrowDataList('arrowDown')"
-              @keyup.up="onKeyUpArrowDataList('arrowUp')"
-              @keypress.enter.prevent="onKeyEnterDataList()"
-            />
-          </div>
-          <div
-            ref="stationsNamesDatalist"
-            class="datalist rounded"
-            v-show="showStationsNamesDatalist"
-            @mouseleave="toggleStationsNamesDatalist(false)"
-          >
-            <div
-              class="datalist-option"
-              :class="{
-                active: item == activeDataOptionId,
-                inactive: activeDataOptionId && item != activeDataOptionId
-              }"
-              v-for="item in filteredStationsNames"
-              :key="item.id"
-              @click="onClickStationNameOption(item.name)"
-              @mouseenter="onMouseEnterDataOption(item)"
-              ref="dataOptionsDivs"
-            >
-              {{ item.department }} - {{ item.name }}
-            </div>
-          </div>
+          <InputTextWithDataList
+            v-model:formStationName="formStationName"
+            :stations="stations"
+          ></InputTextWithDataList>
         </fieldset>
 
         <div class="flex gap-x-6 items-baseline">
@@ -340,7 +211,7 @@ const onKeyEnterDataList = () => {
       <button
         role="submit"
         v-show="formDataset"
-        class="w-full my-6 py-4 text-xl rounded duration-500"
+        class="w-full my-6 py-4 text-xl rounded duration-500 btn-primary"
         :disabled="!isFormReadyToSubmit"
       >
         {{ $t("message.fetchData") }}
@@ -348,40 +219,3 @@ const onKeyEnterDataList = () => {
     </form>
   </div>
 </template>
-
-<style computed>
-.datalist {
-  background-color: white;
-  color: #006076;
-  padding: 4px;
-  max-height: 200px;
-  overflow-y: scroll;
-
-  margin-top: 0.125rem;
-
-  position: absolute;
-  z-index: 1;
-}
-
-@media (width <= 640px) {
-  .datalist {
-    left: 4px;
-    width: calc(100% - 8px);
-  }
-}
-
-.datalist .datalist-option {
-  padding: 0px 4px;
-}
-.datalist .datalist-option:hover,
-.datalist .datalist-option.active {
-  background-color: #006076;
-  color: white;
-  cursor: pointer;
-}
-.datalist .datalist-option.inactive {
-  color: #006076;
-  background-color: white;
-  cursor: note;
-}
-</style>

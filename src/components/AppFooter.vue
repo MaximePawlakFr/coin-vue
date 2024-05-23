@@ -14,3 +14,8 @@ const props = defineProps(["appVersion", "buildDate"])
     </div>
   </footer>
 </template>
+<style computed>
+footer {
+  opacity: 0.2;
+}
+</style>

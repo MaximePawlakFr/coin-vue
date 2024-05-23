@@ -14,8 +14,18 @@ const onClickSignUpButton = () => {
 <template>
   <nav class="fixed w-full">
     <div class="flex justify-between items-baseline p-4">
-      <div class="basis-1/3"><span class="sm:mx-4 sm:px-8">🦆</span></div>
-      <div class="basis-1/3 text-center">Meteo CoinCoin</div>
+      <div class="basis-1/3">
+        <a href="/?coincoin">
+          <span class="sm:mx-4 sm:px-8">
+            Meteo
+            <span class="reverse" title="Coin">🦆</span>
+            CoinCoin <span title="Coin">🦆</span>
+          </span>
+        </a>
+      </div>
+      <div class="basis-1/3 text-center">
+        <em> {{ $t("message.slogan") }}</em>
+      </div>
       <div class="basis-1/3 text-right">
         <div class="locale-changer inline cursor-pointer">
           <select v-model="$i18n.locale">
@@ -30,7 +40,7 @@ const onClickSignUpButton = () => {
         </div>
         <button
           type="button"
-          class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
+          class="btn-primary sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
           @click="onClickSignUpButton"
         >
           {{ $t("message.signup") }}

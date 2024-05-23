@@ -1,6 +1,16 @@
 # Next
 
 - Set better parameters inputs list: search and select
+  - Improve radio button
+  - Add human-friendly name
+  - Make parameters for premium users
+- Rename : station => station météo
+- Colors: inverse back et front
+- Field Dataset: moins large, revoir la flèche
+- Mettre en avant la feature d'export
+- User Friendly: station > paramètres > date > pas temporel
+- Remplacer le nom par une accroche
+- Changer la font: Source Sans Pro
 - By dataset, show total nb points, min/max date
 - Change date inputs to handle better monthly or hourly data
 - Add daily "autres-parametres"
