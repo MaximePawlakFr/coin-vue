@@ -4,6 +4,11 @@
 
 :root {
   --color-blue-duck: #006076;
+
+  --color-base: white;
+  --color-base-content: #30313d;
+  --color-primary: var(--color-blue-duck);
+  --color-primary-content: white;
 }
 
 html,
@@ -11,8 +16,8 @@ body {
   height: 100%;
 }
 body {
-  background-color: var(--color-blue-duck);
-  color: #fff;
+  background-color: var(--color-base);
+  color: var(--color-base-content);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 0.5rem;
 }
@@ -27,7 +32,7 @@ body {
   min-height: 100vh;
 }
 nav {
-  background-color: var(--color-blue-duck);
+  background-color: var(--color-base);
   z-index: 5;
   top: 0;
   left: 0;
@@ -37,32 +42,40 @@ header {
   margin-top: 10rem;
 }
 
-input,
-button,
-select {
-  padding: 4px 8px;
+.text-primary {
+  color: var(--color-primary-content);
+}
+
+.btn-primary {
+  color: var(--color-primary-content);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-content);
+  border-color: var(--color-primary);
 }
 
 input,
-select {
-  color: var(--color-blue-duck);
-}
-
-button,
 input[type="submit"],
+button,
 select {
-  background-color: #fff;
-  color: var(--color-blue-duck);
   padding: 4px 8px;
-  border: 1px solid var(--color-blue-duck);
+  color: var(--color-base-content);
+  background-color: var(--color-base);
+
+  border: 1px solid var(--color-base-content);
 }
 
 button:hover,
 input[type="submit"]:hover,
 select:hover {
-  background-color: var(--color-blue-duck);
-  color: #fff;
-  border-color: #fff;
+  color: var(--color-base);
+  background-color: var(--color-base-content);
+
+  border-color: var(--color-base);
 }
 
 button:disabled,
@@ -70,6 +83,16 @@ input[type="submit"]:disabled,
 select:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+input:focus {
+  outline: none !important;
+  border: 1px solid var(--color-base-content);
+  box-shadow: 0 0 5px var(--color-base-content);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--color-base-content);
 }
 
 .h-50-vh {

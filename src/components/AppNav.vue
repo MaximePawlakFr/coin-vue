@@ -30,7 +30,7 @@ const onClickSignUpButton = () => {
         </div>
         <button
           type="button"
-          class="sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
+          class="btn-primary sm:mx-4 sm:px-8 text-sm sm:text-base rounded duration-500"
           @click="onClickSignUpButton"
         >
           {{ $t("message.signup") }}

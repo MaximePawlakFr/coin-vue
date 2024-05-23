@@ -152,6 +152,7 @@ const onClickSignUpButton = () => {
 }
 
 .locale-changer select {
-  background-color: var(--color-blue-duck);
+  background-color: var(--color-base);
+  border: none;
 }
 </style>
