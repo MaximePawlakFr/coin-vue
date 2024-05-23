@@ -15,11 +15,13 @@ const onClickSignUpButton = () => {
   <nav class="fixed w-full">
     <div class="flex justify-between items-baseline p-4">
       <div class="basis-1/3">
-        <span class="sm:mx-4 sm:px-8">
-          Meteo
-          <span class="reverse" title="Coin">🦆</span>
-          CoinCoin <span title="Coin">🦆</span>
-        </span>
+        <a href="/?coincoin">
+          <span class="sm:mx-4 sm:px-8">
+            Meteo
+            <span class="reverse" title="Coin">🦆</span>
+            CoinCoin <span title="Coin">🦆</span>
+          </span>
+        </a>
       </div>
       <div class="basis-1/3 text-center">
         <em> {{ $t("message.slogan") }}</em>
