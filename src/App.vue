@@ -102,18 +102,13 @@ const onClickSignUpButton = () => {
   <AppNav @onClickSignUpButton="onClickSignUpButton"></AppNav>
   <header class="">
     <h1 class="text-2xl sm:text-6xl text-center">
-      Meteo
-      <span class="reverse" title="Coin">🦆</span>
-      CoinCoin <span title="Coin">🦆</span>
+      {{ $t("message.title1_line1") }}
+      <br />
+      {{ $t("message.title1_line2") }}
     </h1>
     <h2 class="my-8 text-lg font-thin text-center">
-      <span class="my-4 block" title="Coin Coin Coin Coin"
-        >"<em>{{ $t("message.slogan") }}</em
-        >"</span
-      >
+      <span class="my-4 block" title="Coin Coin Coin Coin">{{ $t("message.title2") }}</span>
     </h2>
-
-    <h2 class="my-16 text-lg font-thin text-center" v-html="$t('message.description')"></h2>
   </header>
 
   <main class="flex-1 flex flex-col">
@@ -145,12 +140,6 @@ const onClickSignUpButton = () => {
 </template>
 
 <style computed>
-.reverse {
-  transform: scaleX(-1);
-  width: fit-content;
-  display: inline-block;
-}
-
 .locale-changer select {
   background-color: var(--color-base);
   border: none;

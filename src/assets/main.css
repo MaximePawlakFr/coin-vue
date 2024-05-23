@@ -121,3 +121,9 @@ input[type="checkbox"] {
   position: absolute;
   right: max(0px, calc(50vw - 270px));
 }
+
+.reverse {
+  transform: scaleX(-1);
+  width: fit-content;
+  display: inline-block;
+}

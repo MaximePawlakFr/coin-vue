@@ -2,10 +2,10 @@ export default {
   fr: {
     message: {
       "signup": "S'inscrire",
-      "slogan": "Explorer la météo tel un canard",
-      "description":
-        `Explorer les données météo open-data du monde entier:<br />
-            🗺️ WMO, 🇫🇷 Meteo France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
+      slogan: "Explorer la météo tel un canard",
+      title1_line1: "Exporter les données météo",
+      title1_line2: "du monde entier",
+      title2: "🗺️ WMO, 🇫🇷 Météo France, 🇩🇪 DWD, 🇪🇸 AEMET...",
       showMeExample: "Tester avec un exemple",
       parameters: "Paramètres",
       none: "Aucun",
@@ -45,10 +45,11 @@ export default {
   en: {
     message: {
       "signup": "Sign Up",
-      "slogan": "Master the weather like a duck",
-      "description": `Explore weather open-data from all providers:<br />
-          🗺️ WMO, 🇫🇷 Meteo France, 🇩🇪 DWD, 🇪🇸 AEMET...`,
-      "showMeExample": "Show me an example",
+      slogan: "Master the weather like a duck",
+      title1_line1: "Export weather data",
+      title1_line2: "from all providers",
+      title2: "🗺️ WMO, 🇫🇷 Météo France, 🇩🇪 DWD, 🇪🇸 AEMET...",
+      showMeExample: "Show me an example",
       parameters: "Parameters",
       none: "None",
       fetchData: "Fetch data",
