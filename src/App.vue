@@ -14,14 +14,30 @@ const ENV = import.meta.env
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
 import BrevoForm from "./components/BrevoForm.vue"
 import AppNav from "./components/AppNav.vue"
+// import { generateFingerprint } from "./utils/hash.js"
+
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
-  posthog.init(POSTHOG_KEY, { api_host: "https://eu.i.posthog.com" })
+  posthog.init(POSTHOG_KEY, {
+    api_host: "https://annabella.mistermeteo.com"
+    //"https://eu.i.posthog.com"
+  })
 }
 
 const worker = perspective.worker()
-
 const viewer = ref(null)
+// const userId = localStorage.getItem("userId")
+// const userIdCreatedAt = localStorage.getItem("userIdCreatedAt")
+// console.log({ userId, userIdCreatedAt })
+// if (!userId) {
+//   const now = new Date().toISOString()
+//   generateFingerprint(now).then((ff) => {
+//     console.log(ff)
+//     // Writing to localStorage
+//     localStorage.setItem("userId", ff)
+//     localStorage.setItem("userIdCreatedAt", now)
+//   })
+// }
 
 const data = ref(null)
 const dates = ref(null)
@@ -111,7 +127,7 @@ const onClickSignUpButton = () => {
     </h2>
   </header>
 
-  <main class="flex-1 flex flex-col">
+  <main class="flex-1 mt-32 flex flex-col">
     <div class="container mx-auto">
       <DatasetForm @submit="submit" />
     </div>
