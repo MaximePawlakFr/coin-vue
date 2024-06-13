@@ -5,11 +5,9 @@
   - Add human-friendly name
   - Make parameters for premium users
 - Rename : station => station météo
-- Colors: inverse back et front
 - Field Dataset: moins large, revoir la flèche
 - Mettre en avant la feature d'export
 - User Friendly: station > paramètres > date > pas temporel
-- Remplacer le nom par une accroche
 - Changer la font: Source Sans Pro
 - By dataset, show total nb points, min/max date
 - Change date inputs to handle better monthly or hourly data
@@ -17,6 +15,16 @@
 - Add messages during data fetching
 - apply best practices
 - bug: station list on first click is very long
+
+# 2024-06-13
+
+- Change API host for posthog
+
+# 23
+
+- Colors: inverse back et front
+- Remplacer le nom par une accroche
+- Add Component InputTextDataList
 
 # 19
 
