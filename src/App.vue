@@ -123,7 +123,7 @@ const onClickSignUpButton = () => {
       {{ $t("message.title1_line2") }}
     </h1>
     <h2 class="my-8 text-lg font-thin text-center">
-      <span class="my-4 block" title="Coin Coin Coin Coin">{{ $t("message.title2") }}</span>
+      <span class="my-4 block" title="Mister Meteo">{{ $t("message.title2") }}</span>
     </h2>
   </header>
 

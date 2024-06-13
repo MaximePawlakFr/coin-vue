@@ -1,4 +1,4 @@
-# meteo-coincoin
+# mistermeteo
 
 ## Project Setup
 

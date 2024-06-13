@@ -3107,36 +3107,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"meteo-coincoin@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "meteo-coincoin@workspace:."
-  dependencies:
-    "@duckdb/duckdb-wasm": ^1.28.1-dev106.0
-    "@playwright/test": ^1.43.0
-    "@rushstack/eslint-patch": ^1.8.0
-    "@vitejs/plugin-vue": ^5.0.4
-    "@vitejs/plugin-vue-jsx": ^3.1.0
-    "@vue/eslint-config-prettier": ^9.0.0
-    "@vue/test-utils": ^2.4.5
-    autoprefixer: ^10.4.19
-    eslint: ^8.57.0
-    eslint-plugin-playwright: ^1.5.4
-    eslint-plugin-vue: ^9.23.0
-    jsdom: ^24.0.0
-    pinia: ^2.1.7
-    plotly.js-dist: ^2.31.1
-    postcss: ^8.4.38
-    posthog-js: ^1.130.1
-    prettier: ^3.2.5
-    tailwindcss: ^3.4.3
-    vite: ^5.2.8
-    vitest: ^1.4.0
-    vue: ^3.4.21
-    vue-i18n: 9
-    vue-router: ^4.3.0
-  languageName: unknown
-  linkType: soft
-
 "micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
   version: 4.0.5
   resolution: "micromatch@npm:4.0.5"
@@ -3280,6 +3250,36 @@ __metadata:
   checksum: f1fdeac0b07cf8f30fcf12f4b586795b97be856edea22b5e9072707be51fc95d41487faec3f265b42973a304fe3a64acd91a44a3826a963e37b37bafde0212c3
   languageName: node
   linkType: hard
+
+"mistermeteo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "mistermeteo@workspace:."
+  dependencies:
+    "@duckdb/duckdb-wasm": ^1.28.1-dev106.0
+    "@playwright/test": ^1.43.0
+    "@rushstack/eslint-patch": ^1.8.0
+    "@vitejs/plugin-vue": ^5.0.4
+    "@vitejs/plugin-vue-jsx": ^3.1.0
+    "@vue/eslint-config-prettier": ^9.0.0
+    "@vue/test-utils": ^2.4.5
+    autoprefixer: ^10.4.19
+    eslint: ^8.57.0
+    eslint-plugin-playwright: ^1.5.4
+    eslint-plugin-vue: ^9.23.0
+    jsdom: ^24.0.0
+    pinia: ^2.1.7
+    plotly.js-dist: ^2.31.1
+    postcss: ^8.4.38
+    posthog-js: ^1.130.1
+    prettier: ^3.2.5
+    tailwindcss: ^3.4.3
+    vite: ^5.2.8
+    vitest: ^1.4.0
+    vue: ^3.4.21
+    vue-i18n: 9
+    vue-router: ^4.3.0
+  languageName: unknown
+  linkType: soft
 
 "mkdirp@npm:^1.0.3":
   version: 1.0.4

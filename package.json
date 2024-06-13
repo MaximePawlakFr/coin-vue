@@ -1,15 +1,17 @@
 {
-  "name": "meteo-coincoin",
+  "name": "mistermeteo",
   "version": "0.3.5",
   "private": true,
-  "homepage": "https://www.meteo-coincoin.com",
+  "homepage": "https://www.mistermeteo.com",
   "repository": "https://github.com/MaximePawlakFr/meteo-coincoin/",
   "author": "Maxime Pawlak <github.efficient404@passmail.net>",
   "keywords": [
     "meteo-france",
     "coincoin",
     "open-data",
-    "meteo"
+    "meteo",
+    "mister meteo",
+    "mistermeteo"
   ],
   "type": "module",
   "scripts": {
