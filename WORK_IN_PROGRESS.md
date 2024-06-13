@@ -18,7 +18,7 @@
 
 # 2024-06-13
 
-- Change API host for posthog
+- Change POSTHOG_HOST to custom proxy
 
 # 23
 

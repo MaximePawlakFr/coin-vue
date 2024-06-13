@@ -51,7 +51,12 @@ yarn lint
 
 ### Deploy
 
-```
+```bash
+# Update version
 yarn version:patch
+# or
+yarn version:minor
+
+# Push to Github Actions
 git push
 ```
