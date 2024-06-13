@@ -15,11 +15,11 @@ const onClickSignUpButton = () => {
   <nav class="fixed w-full">
     <div class="flex justify-between items-baseline p-4">
       <div class="basis-1/3">
-        <a href="/?coincoin">
+        <a href="/?hey_mister">
           <span class="sm:mx-4 sm:px-8">
-            Meteo
-            <span class="reverse" title="Coin">🦆</span>
-            CoinCoin <span title="Coin">🦆</span>
+            Mister
+            <span class="reverse" title="Mister">🌤️</span>
+            Meteo <span title="Meteo">🌤️</span>
           </span>
         </a>
       </div>

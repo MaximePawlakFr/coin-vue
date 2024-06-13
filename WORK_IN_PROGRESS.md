@@ -15,6 +15,7 @@
 - Add messages during data fetching
 - apply best practices
 - bug: station list on first click is very long
+- bug : corriger le loader, non visible avec les nouvelles couleurs
 
 # 2024-06-13
 

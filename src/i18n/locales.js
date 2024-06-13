@@ -1,8 +1,8 @@
 export default {
   fr: {
     message: {
-      "signup": "S'inscrire",
-      slogan: "Explorer la météo tel un canard",
+      signup: "S'inscrire",
+      slogan: " ",
       title1_line1: "Exporter les données météo",
       title1_line2: "du monde entier",
       title2: "🗺️ WMO, 🇫🇷 Météo France, 🇩🇪 DWD, 🇪🇸 AEMET...",
@@ -35,17 +35,17 @@ export default {
     >à la politique de confidentialité de Brevo..</a
   >`,
       signup: "S'inscrire",
-      successMessage: "Votre inscription a bien été prise en compte. 🦆",
+      successMessage: "Votre inscription a bien été prise en compte. 🌤️",
     },
     footer: {
-      credits: "Meteo CoinCoin par Maxime Pawlak",
+      credits: "Mister Meteo par Maxime Pawlak",
     },
   },
 
   en: {
     message: {
-      "signup": "Sign Up",
-      slogan: "Master the weather like a duck",
+      signup: "Sign Up",
+      slogan: " ",
       title1_line1: "Export weather data",
       title1_line2: "from all providers",
       title2: "🗺️ WMO, 🇫🇷 Météo France, 🇩🇪 DWD, 🇪🇸 AEMET...",
@@ -79,10 +79,10 @@ export default {
     >Brevo's Privacy Policy.</a
   >`,
       signup: "Sign up",
-      successMessage: "Success! You signed up 🦆",
+      successMessage: "Success! You signed up 🌤️",
     },
     footer: {
-      credits: "Meteo CoinCoin by Maxime Pawlak",
+      credits: "Mister Meteo by Maxime Pawlak",
     },
   },
 };
