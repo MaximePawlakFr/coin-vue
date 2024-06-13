@@ -12,6 +12,7 @@ import perspective from "https://cdn.jsdelivr.net/npm/@finos/perspective/dist/cd
 import posthog from "posthog-js"
 const ENV = import.meta.env
 const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
+const POSTHOG_HOST = ENV.VITE_POSTHOG_HOST
 import BrevoForm from "./components/BrevoForm.vue"
 import AppNav from "./components/AppNav.vue"
 // import { generateFingerprint } from "./utils/hash.js"
@@ -19,8 +20,7 @@ import AppNav from "./components/AppNav.vue"
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
   posthog.init(POSTHOG_KEY, {
-    api_host: "https://annabella.mistermeteo.com"
-    //"https://eu.i.posthog.com"
+    api_host: POSTHOG_HOST //"https://eu.i.posthog.com"
   })
 }
 
