@@ -19,6 +19,7 @@
 
 # 2024-06-13
 
+- Update to www.mistermeteo.com
 - Change POSTHOG_HOST to custom proxy
 
 # 23
