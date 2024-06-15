@@ -14,27 +14,28 @@ const formDataset = defineModel("formDataset", {
   default: null
 })
 
+const parametersColumns = [
+  { label: "precipitation", value: "RR" },
+  { label: "temperatureMin", value: "TN" },
+  { label: "temperatureMax", value: "TX" },
+  { label: "temperatureAvg", value: "TM" }
+]
+
 const formParametersColumns = defineModel("formParametersColumns", {
-  default: ["RR", "TX", "TM", "TN"]
+  default: []
 })
+
 const formStationName = defineModel("formStationName", {
   default: ""
 })
 
 const formStartDate = defineModel("formStartDate", {
-  default: null
+  default: "2023-01-01"
 })
-const defaultStartDate = new Date()
-defaultStartDate.setDate(defaultStartDate.getDate() - 365)
-const defaultStartDateStr = defaultStartDate.toISOString().slice(0, 10)
-
-formStartDate.value = defaultStartDateStr
 
 const formEndDate = defineModel("formEndDate", {
-  default: null
+  default: "2024-01-01"
 })
-const defaultEndDateStr = new Date().toISOString().slice(0, 10)
-formEndDate.value = defaultEndDateStr
 
 const isFormReadyToSubmit = computed(() => {
   const errors = []
@@ -58,7 +59,7 @@ const isFormReadyToSubmit = computed(() => {
 })
 
 const onClickAllButton = () => {
-  formParametersColumns.value = formDataset?.value.columns.parameters
+  formParametersColumns.value = parametersColumns.map((x) => x.value)
 }
 
 const onClickNoneButton = () => {
@@ -126,97 +127,103 @@ function onSubmit() {
         </button>
       </div>
 
-      <fieldset>
+      <div class="flex flex-col gap-y-4">
         <div>
-          <label for="formDataset" class="mr-2">Dataset</label>
+          <h3 class="text-lg font-medium">{{ $t("message.step1") }}</h3>
+          <fieldset class="my-2">
+            <v-select
+              :placeholder="$t('message.selectAStation')"
+              :options="stations"
+              :get-option-label="(option) => option.department + ' ' + option.name"
+              :reduce="(option) => option.name"
+              v-model="formStationName"
+            ></v-select>
+          </fieldset>
         </div>
-        <select
-          name="formDataset"
-          id="formDataset"
-          class="w-full rounded duration-500"
-          v-model="formDataset"
-          required
-        >
-          <option value="" disabled>▼ {{ $t("message.selectADataset") }}</option>
-          <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
-            <option
-              v-for="item in group.datasets"
-              :value="item"
-              :key="item.id"
-              :disabled="!item.available"
-              :title="!item.available ? $t('message.premiumOnly') : ''"
-            >
-              {{ item.name }} {{ item.available ? "" : " &#128274;" }}
-            </option>
-          </optgroup>
-        </select>
-      </fieldset>
-      <p v-show="formDataset">
-        <a :href="formDataset?.url" target="_blank" class="underline text-sm">
-          {{ $t("message.datasetSource") }}
-        </a>
-      </p>
 
-      <div v-show="formDataset" class="my-6">
-        <p>{{ $t("message.parameters") }}</p>
-        <div class="flex gap-x-2 items-baseline">
-          <button type="button" @click="onClickAllButton" class="rounded duration-500">
-            {{ $t("message.all") }}
-          </button>
-          <button type="button" @click="onClickNoneButton" class="rounded duration-500">
-            {{ $t("message.none") }}
-          </button>
-          <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
+        <div>
+          <h3 class="text-lg font-medium">{{ $t("message.step2") }}</h3>
+          <div class="my-2">
+            <div class="flex gap-x-2 items-baseline">
+              <button type="button" @click="onClickAllButton" class="rounded duration-500">
+                {{ $t("message.all") }}
+              </button>
+              <button type="button" @click="onClickNoneButton" class="rounded duration-500">
+                {{ $t("message.none") }}
+              </button>
+              <!-- <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
             {{ $t("message.parametersDefinition") }}</a
-          >
-        </div>
-        <fieldset class="flex flex-wrap">
-          <template v-for="item in formDataset?.columns.parameters" :key="item">
-            <div class="mx-1">
-              <input
-                type="checkbox"
-                name="formParametersColumns"
-                :id="item"
-                :value="item"
-                v-model="formParametersColumns"
-                class="rounded"
-              />
-              <label :for="item" class="mx-2">{{ item }}</label>
+          > -->
             </div>
-          </template>
-        </fieldset>
-      </div>
+            <fieldset class="flex flex-col my-2">
+              <template v-for="item in parametersColumns" :key="item.label">
+                <div class="mx-1">
+                  <input
+                    type="checkbox"
+                    name="formParametersColumns"
+                    :id="item.label"
+                    :value="item.value"
+                    v-model="formParametersColumns"
+                    class="rounded"
+                  />
+                  <label :for="item.label" class="mx-2">{{ $t("parameters." + item.label) }}</label>
+                </div>
+              </template>
+            </fieldset>
+          </div>
+        </div>
 
-      <div
-        v-show="formDataset"
-        class="flex flex-wrap justify-between lg:justify-around gap-y-4 gap-x-6"
-      >
-        <fieldset class="grow">
-          <v-select
-            :options="stations"
-            :get-option-label="(option) => option.department + ' ' + option.name"
-            :reduce="(option) => option.name"
-            v-model="formStationName"
-          ></v-select>
-        </fieldset>
+        <div>
+          <h3 class="text-lg font-medium">{{ $t("message.step3") }}</h3>
 
-        <div class="flex gap-x-6 items-baseline">
-          <fieldset>
-            <label for="" class="mr-2"> {{ $t("message.from") }}</label>
-
-            <input type="date" v-model="formStartDate" class="rounded" />
+          <fieldset class="my-2">
+            <select
+              name="formDataset"
+              id="formDataset"
+              class="w-full rounded duration-500"
+              v-model="formDataset"
+              required
+            >
+              <option value="" disabled>▼ {{ $t("message.selectADataset") }}</option>
+              <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
+                <option
+                  v-for="item in group.datasets"
+                  :value="item"
+                  :key="item.id"
+                  :disabled="!item.available"
+                  :title="!item.available ? $t('message.premiumOnly') : ''"
+                >
+                  {{ item.name }} {{ item.available ? "" : " &#128274;" }}
+                </option>
+              </optgroup>
+            </select>
           </fieldset>
+          <!-- <p v-show="formDataset">
+          <a :href="formDataset?.url" target="_blank" class="underline text-sm">
+            {{ $t("message.datasetSource") }}
+          </a>
+        </p> -->
+        </div>
+        <div>
+          <h3 class="text-lg font-medium">{{ $t("message.step4") }}</h3>
 
-          <fieldset>
-            <label for="" class="mr-2"> {{ $t("message.to") }}</label>
-            <input type="date" v-model="formEndDate" class="rounded" />
-          </fieldset>
+          <div class="my-2 flex gap-x-6 items-baseline">
+            <fieldset>
+              <label for="" class="mr-2"> {{ $t("message.from") }}</label>
+
+              <input type="date" v-model="formStartDate" class="rounded" />
+            </fieldset>
+
+            <fieldset>
+              <label for="" class="mr-2"> {{ $t("message.to") }}</label>
+              <input type="date" v-model="formEndDate" class="rounded" />
+            </fieldset>
+          </div>
         </div>
       </div>
 
       <button
         role="submit"
-        v-show="formDataset"
         class="w-full my-6 py-4 text-xl rounded duration-500 btn-primary"
         :disabled="!isFormReadyToSubmit"
       >

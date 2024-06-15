@@ -16,6 +16,7 @@
 - apply best practices
 - bug: station list on first click is very long
 - bug : corriger le loader, non visible avec les nouvelles couleurs
+- css: améliorer la typo des étapes
 
 # 2024-06-13
 
