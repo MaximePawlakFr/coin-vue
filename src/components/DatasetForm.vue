@@ -4,7 +4,8 @@ import { storeToRefs } from "pinia"
 import sqlClient from "../duckdb/sqlQueryBuilder.js"
 import { computed } from "vue"
 import { datasetsGroups } from "../datasets/meteoFrance/index.js"
-import InputTextWithDataList from "./InputTextWithDataList.vue"
+import vSelect from "vue-select"
+import "vue-select/dist/vue-select.css"
 
 const dailyDataStore = useDailyDataStore()
 const { stations, isFetchingData } = storeToRefs(dailyDataStore)
@@ -186,12 +187,17 @@ function onSubmit() {
         </fieldset>
       </div>
 
-      <div v-show="formDataset" class="flex flex-wrap justify-between lg:justify-around gap-y-4">
-        <fieldset class="grow sm:grow-0">
-          <InputTextWithDataList
-            v-model:formStationName="formStationName"
-            :stations="stations"
-          ></InputTextWithDataList>
+      <div
+        v-show="formDataset"
+        class="flex flex-wrap justify-between lg:justify-around gap-y-4 gap-x-6"
+      >
+        <fieldset class="grow">
+          <v-select
+            :options="stations"
+            :get-option-label="(option) => option.department + ' ' + option.name"
+            :reduce="(option) => option.name"
+            v-model="formStationName"
+          ></v-select>
         </fieldset>
 
         <div class="flex gap-x-6 items-baseline">
@@ -219,3 +225,10 @@ function onSubmit() {
     </form>
   </div>
 </template>
+
+<style computed>
+:root {
+  --vs-border-color: var(--color-base-content);
+  --vs-dropdown-option--active-bg: var(--color-blue-duck);
+}
+</style>

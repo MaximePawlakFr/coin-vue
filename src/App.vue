@@ -60,7 +60,6 @@ function submit(form) {
 
   console.log("submit", form)
   isGraphReady.value = false
-
   return runQuery(form).then((res) => {
     console.log({ res })
 
