@@ -81,6 +81,12 @@ export default {
       selectAPeriod: "Select a period",
       premiumOnly: "Reserved to premium users",
     },
+    parameters: {
+      precipitation: "Precipitation",
+      temperatureMax: "Temperature Max",
+      temperatureMin: "Temperature Min",
+      temperatureAvg: "Temperature Avg",
+    },
     brevoForm: {
       title: "Get Premium Access",
       description: "Sign up et access premium features.",
