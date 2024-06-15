@@ -3278,6 +3278,7 @@ __metadata:
     vue: ^3.4.21
     vue-i18n: 9
     vue-router: ^4.3.0
+    vue-select: beta
   languageName: unknown
   linkType: soft
 
@@ -4750,6 +4751,15 @@ __metadata:
   peerDependencies:
     vue: ^3.2.0
   checksum: c5093ddb5349b47814f1df032a64dd5ee70f34c792a2108fdc5324fcd544ac66f218be69c4b98e9762655f3e591c12ffa542c193897bbfb98e6e4a2b994e312a
+  languageName: node
+  linkType: hard
+
+"vue-select@npm:beta":
+  version: 4.0.0-beta.6
+  resolution: "vue-select@npm:4.0.0-beta.6"
+  peerDependencies:
+    vue: 3.x
+  checksum: 712ba1f1ecf0891225a7108cbe5bc493c8c24b44335d7298d57c9ed9719cf49a5fc7ee53c376085438dd437f36c092933b6cd5b2e617ba28de2d85ab3eaa3e05
   languageName: node
   linkType: hard
 
