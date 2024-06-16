@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "^1.28.1-dev106.0",
+    "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
     "plotly.js-dist": "^2.31.1",
     "posthog-js": "^1.130.1",

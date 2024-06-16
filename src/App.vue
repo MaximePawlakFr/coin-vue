@@ -15,7 +15,7 @@ const POSTHOG_KEY = ENV.VITE_POSTHOG_KEY
 const POSTHOG_HOST = ENV.VITE_POSTHOG_HOST
 import BrevoForm from "./components/BrevoForm.vue"
 import AppNav from "./components/AppNav.vue"
-// import { generateFingerprint } from "./utils/hash.js"
+import Papa from "papaparse"
 
 // Init only for prod to avoir sending false signals
 if (POSTHOG_KEY) {
@@ -39,6 +39,7 @@ const viewer = ref(null)
 //   })
 // }
 
+const rawData = ref(null)
 const data = ref(null)
 const dates = ref(null)
 const dateColumn = ref(null)
@@ -65,6 +66,7 @@ function submit(form) {
 
     dates.value = res.dates
     data.value = res.data
+    rawData.value = res.rawData
     title.value = `${stationName} - ${startDate} -> ${endDate}`
 
     isGraphReady.value = true
@@ -111,6 +113,32 @@ const toggleShowModal = (show = false) => {
 const onClickSignUpButton = () => {
   toggleShowModal(true)
 }
+const downloadData = (format) => {
+  if (format === "CSV") {
+    const rawDataAsCsv = Papa.unparse(rawData.value)
+
+    const blob = new Blob([rawDataAsCsv], { type: "text/csv;charset=utf-8," })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `MISTER_METEO_${title.value}.csv`
+    // Trigger the download by clicking the anchor tag
+    a.click()
+  } else if (format === "JSON") {
+    const dataAsString = JSON.stringify(
+      rawData.value,
+      (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+    )
+    const blob = new Blob([dataAsString], { type: "text/json;charset=utf-8," })
+    const dataAsUrl = URL.createObjectURL(blob)
+
+    const a = document.createElement("a")
+    a.href = dataAsUrl
+    a.download = `MISTER_METEO_${title.value}.json`
+    // Trigger the download by clicking the anchor tag
+    a.click()
+  }
+}
 </script>
 
 <template>
@@ -141,6 +169,24 @@ const onClickSignUpButton = () => {
           :title="title"
         />
         <perspective-viewer ref="viewer" class="h-80"> </perspective-viewer>
+
+        <div class="my-8 flex justify-center gap-x-4">
+          <button
+            type="button"
+            @click.prevent="downloadData('CSV')"
+            class="btn-primary rounded duration-500"
+          >
+            {{ $t("message.download") }} .csv
+          </button>
+
+          <button
+            type="button"
+            @click.prevent="downloadData('JSON')"
+            class="btn-primary rounded duration-500"
+          >
+            {{ $t("message.download") }} .json
+          </button>
+        </div>
       </div>
       <Loader v-show="isFetchingData" class="my-4 w-full h-4 flex items-center justify-center" />
     </div>

@@ -15,6 +15,8 @@
 - apply best practices
 - bug : corriger le loader, non visible avec les nouvelles couleurs
 - css: améliorer la typo des étapes
+- ux: if no data, show gentle message
+- refactor: clean download data
 
 # 2024-06-13
 
