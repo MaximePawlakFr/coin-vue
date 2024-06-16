@@ -55,7 +55,7 @@
             />
           </svg>
           <span class="sib-form-message-panel__inner-text">
-            {{ $t("brevoForm.sucessMessage") }}
+            {{ $t("brevoForm.successMessage") }}
           </span>
         </div>
       </div>
