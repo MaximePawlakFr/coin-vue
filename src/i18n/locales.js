@@ -25,6 +25,7 @@ export default {
       selectADataset: "Sélectionner un dataset",
       selectAPeriod: "Sélectionner une période temporelle",
       premiumOnly: "Réservé aux utilisateurs inscrits",
+      download: "Télécharger",
     },
     parameters: {
       precipitation: "Précipitation",
@@ -80,6 +81,7 @@ export default {
       selectADataset: "Select a dataset",
       selectAPeriod: "Select a period",
       premiumOnly: "Reserved to premium users",
+      download: "Download",
     },
     parameters: {
       precipitation: "Precipitation",
