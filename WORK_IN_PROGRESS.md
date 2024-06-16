@@ -5,7 +5,6 @@
   - Add human-friendly name
   - Make parameters for premium users
 - Rename : station => station météo
-- Field Dataset: moins large, revoir la flèche
 - Mettre en avant la feature d'export
 - User Friendly: station > paramètres > date > pas temporel
 - Changer la font: Source Sans Pro
@@ -14,7 +13,6 @@
 - Add daily "autres-parametres"
 - Add messages during data fetching
 - apply best practices
-- bug: station list on first click is very long
 - bug : corriger le loader, non visible avec les nouvelles couleurs
 - css: améliorer la typo des étapes
 

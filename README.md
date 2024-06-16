@@ -60,3 +60,7 @@ yarn version:minor
 # Push to Github Actions
 git push
 ```
+
+# ADR
+
+https://vue-select.org/

@@ -66,13 +66,13 @@ const onClickNoneButton = () => {
   formParametersColumns.value = []
 }
 
-const onClickExampleButton = () => {
-  formDataset.value = datasetsGroups[0].datasets[3] //BASE > MENS
-  formParametersColumns.value = ["RR", "TN", "TX", "TM"]
-  formStationName.value = "TOULOUSE-BLAGNAC"
-  formStartDate.value = "2010-01-01"
-  formEndDate.value = "2020-01-01"
-}
+// const onClickExampleButton = () => {
+//   formDataset.value = datasetsGroups[0].datasets[3] //BASE > MENS
+//   formParametersColumns.value = ["RR", "TN", "TX", "TM"]
+//   formStationName.value = "TOULOUSE-BLAGNAC"
+//   formStartDate.value = "2010-01-01"
+//   formEndDate.value = "2020-01-01"
+// }
 
 const emit = defineEmits({
   submit: () => {
@@ -121,15 +121,15 @@ function onSubmit() {
 <template>
   <div>
     <form @submit.prevent="onSubmit" class="">
-      <div class="text-center">
+      <!-- <div class="text-center">
         <button type="button" @click="onClickExampleButton" class="rounded duration-500 px-8">
           {{ $t("message.showMeExample") }}
         </button>
-      </div>
+      </div> -->
 
       <div class="flex flex-col gap-y-4">
         <div>
-          <h3 class="text-lg font-medium">{{ $t("message.step1") }}</h3>
+          <h3 class="text-lg font-semibold">{{ $t("message.step1") }}</h3>
           <fieldset class="my-2">
             <v-select
               :placeholder="$t('message.selectAStation')"
@@ -142,7 +142,7 @@ function onSubmit() {
         </div>
 
         <div>
-          <h3 class="text-lg font-medium">{{ $t("message.step2") }}</h3>
+          <h3 class="text-lg font-semibold">{{ $t("message.step2") }}</h3>
           <div class="my-2">
             <div class="flex gap-x-2 items-baseline">
               <button type="button" @click="onClickAllButton" class="rounded duration-500">
@@ -174,7 +174,7 @@ function onSubmit() {
         </div>
 
         <div>
-          <h3 class="text-lg font-medium">{{ $t("message.step3") }}</h3>
+          <h3 class="text-lg font-semibold">{{ $t("message.step3") }}</h3>
 
           <fieldset class="my-2">
             <select
@@ -205,7 +205,7 @@ function onSubmit() {
         </p> -->
         </div>
         <div>
-          <h3 class="text-lg font-medium">{{ $t("message.step4") }}</h3>
+          <h3 class="text-lg font-semibold">{{ $t("message.step4") }}</h3>
 
           <div class="my-2 flex gap-x-6 items-baseline">
             <fieldset>
