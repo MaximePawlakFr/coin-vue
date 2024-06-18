@@ -34,8 +34,11 @@ export default {
     ],
   },
   parquet_urls: [
+    // previous-1950
     "https://www.data.gouv.fr/fr/datasets/r/9a200903-bb38-401b-a305-30c04af8ddfd",
+    // 1950-2022
     "https://www.data.gouv.fr/fr/datasets/r/dad90fd9-8a0e-4a85-9f3c-8bfb31fc9d5f",
+    // 2023-2024
     "https://www.data.gouv.fr/fr/datasets/r/3a8757ad-81b0-4ac7-a19d-d0e160a086df",
   ],
   available: true,

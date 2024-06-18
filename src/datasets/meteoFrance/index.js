@@ -1,3 +1,4 @@
+import HOR from "./HOR.js";
 import MENS from "./MENS.js";
 import QUOT from "./QUOT.js";
 import meteofranceFichesStations from "./fiches-stations.js";
@@ -16,13 +17,7 @@ export const datasetsGroups = [
           "https://meteo.data.gouv.fr/datasets/donnees-climatologiques-de-base-6-minutes/",
         available: false,
       },
-      {
-        id: "6569b4473bedf2e7abad3b72",
-        name: "Données climatologiques de base - horaires",
-        url:
-          "  https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-horaires",
-        available: false,
-      },
+      HOR,
       QUOT,
       MENS,
       {

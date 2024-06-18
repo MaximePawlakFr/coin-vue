@@ -36,10 +36,13 @@ export const runQuery = async (form) => {
     // Process date
     const dateColumn = dataset.columns.date;
     const dateStr = r[dateColumn];
+
     const year = ("" + dateStr).slice(0, 4);
     const month = ("" + dateStr).slice(4, 6) - 1;
-    const day = ("" + dateStr).slice(6, 8) || "0";
-    const date = new Date(year, month, day);
+    const day = ("" + dateStr).slice(6, 8) || "1";
+    const hour = ("" + dateStr).slice(8, 10) || "0";
+
+    const date = new Date(Date.UTC(year, month, day, hour));
     dates.push(date);
   });
 
