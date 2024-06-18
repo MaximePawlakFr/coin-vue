@@ -114,6 +114,8 @@ const onClickSignUpButton = () => {
   toggleShowModal(true)
 }
 const downloadData = (format) => {
+  posthog.capture("downloadData", { format, title })
+
   if (format === "CSV") {
     const rawDataAsCsv = Papa.unparse(rawData.value)
 
