@@ -10,16 +10,19 @@ import "vue-select/dist/vue-select.css"
 const dailyDataStore = useDailyDataStore()
 const { stations, isFetchingData } = storeToRefs(dailyDataStore)
 
+const parametersColumnsOptions = defineModel("parametersColumnsOptions", {
+  default: [
+    { label: "precipitation", value: "RR" },
+    { label: "temperatureMin", value: "TN" },
+    { label: "temperatureMax", value: "TX" },
+    { label: "temperatureAvg", value: "TM" },
+    { label: "windSpeedAt10m", value: "FFM" }
+  ]
+})
+
 const formDataset = defineModel("formDataset", {
   default: null
 })
-
-const parametersColumns = [
-  { label: "precipitation", value: "RR" },
-  { label: "temperatureMin", value: "TN" },
-  { label: "temperatureMax", value: "TX" },
-  { label: "temperatureAvg", value: "TM" }
-]
 
 const formParametersColumns = defineModel("formParametersColumns", {
   default: []
@@ -58,21 +61,35 @@ const isFormReadyToSubmit = computed(() => {
   return true
 })
 
+const onChangeDataset = () => {
+  const parameters = formDataset.value.columns.parameters
+  parametersColumnsOptions.value = parameters
+
+  // Loop over formParametersColumns to check corresponding labels
+  const selectedColumnsLabels = formParametersColumns.value.map((column) => column.label)
+  // Reset
+  formParametersColumns.value = []
+
+  // Search for equivalent columns
+  formParametersColumns.value = parametersColumnsOptions.value
+    .map((option) => {
+      const { label } = option
+      if (selectedColumnsLabels.includes(label)) {
+        return option
+      } else {
+        return null
+      }
+    })
+    .filter((option) => option)
+}
+
 const onClickAllButton = () => {
-  formParametersColumns.value = parametersColumns.map((x) => x.value)
+  formParametersColumns.value = parametersColumnsOptions.value.map((x) => x)
 }
 
 const onClickNoneButton = () => {
   formParametersColumns.value = []
 }
-
-// const onClickExampleButton = () => {
-//   formDataset.value = datasetsGroups[0].datasets[3] //BASE > MENS
-//   formParametersColumns.value = ["RR", "TN", "TX", "TM"]
-//   formStationName.value = "TOULOUSE-BLAGNAC"
-//   formStartDate.value = "2010-01-01"
-//   formEndDate.value = "2020-01-01"
-// }
 
 const emit = defineEmits({
   submit: () => {
@@ -88,7 +105,9 @@ function onSubmit() {
   const dateColumn = formDataset.value.columns.date
   const stationColumns = formDataset.value.columns.station
 
-  const columns = [dateColumn, ...stationColumns, ...formParametersColumns.value]
+  const parametersColumnsValues = formParametersColumns.value.map((column) => column.value)
+
+  const columns = [dateColumn, ...stationColumns, ...parametersColumnsValues]
 
   const parquetUrls = formDataset.value.parquet_urls
   const stationName = formStationName.value
@@ -143,38 +162,6 @@ function onSubmit() {
 
         <div>
           <h3 class="text-lg font-semibold">{{ $t("message.step2") }}</h3>
-          <div class="my-2">
-            <div class="flex gap-x-2 items-baseline">
-              <button type="button" @click="onClickAllButton" class="rounded duration-500">
-                {{ $t("message.all") }}
-              </button>
-              <button type="button" @click="onClickNoneButton" class="rounded duration-500">
-                {{ $t("message.none") }}
-              </button>
-              <!-- <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
-            {{ $t("message.parametersDefinition") }}</a
-          > -->
-            </div>
-            <fieldset class="flex flex-col my-2">
-              <template v-for="item in parametersColumns" :key="item.label">
-                <div class="mx-1">
-                  <input
-                    type="checkbox"
-                    name="formParametersColumns"
-                    :id="item.label"
-                    :value="item.value"
-                    v-model="formParametersColumns"
-                    class="rounded"
-                  />
-                  <label :for="item.label" class="mx-2">{{ $t("parameters." + item.label) }}</label>
-                </div>
-              </template>
-            </fieldset>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-lg font-semibold">{{ $t("message.step3") }}</h3>
 
           <fieldset class="my-2">
             <select
@@ -182,9 +169,10 @@ function onSubmit() {
               id="formDataset"
               class="w-full rounded duration-500"
               v-model="formDataset"
+              v-on:change="onChangeDataset"
               required
             >
-              <option value="" disabled>▼ {{ $t("message.selectADataset") }}</option>
+              <option value="" disabled>{{ $t("message.selectADataset") }}</option>
               <optgroup v-for="group in datasetsGroups" :label="group.name" :key="group.id">
                 <option
                   v-for="item in group.datasets"
@@ -204,6 +192,39 @@ function onSubmit() {
           </a>
         </p> -->
         </div>
+
+        <div>
+          <h3 class="text-lg font-semibold">{{ $t("message.step3") }}</h3>
+          <div class="my-2">
+            <div class="flex gap-x-2 items-baseline">
+              <button type="button" @click="onClickAllButton" class="rounded duration-500">
+                {{ $t("message.all") }}
+              </button>
+              <button type="button" @click="onClickNoneButton" class="rounded duration-500">
+                {{ $t("message.none") }}
+              </button>
+              <!-- <a :href="formDataset?.documentationUrl" target="_blank" class="underline text-sm">
+            {{ $t("message.parametersDefinition") }}</a
+          > -->
+            </div>
+            <fieldset class="flex flex-col my-2">
+              <template v-for="item in parametersColumnsOptions" :key="item.label">
+                <div class="mx-1">
+                  <input
+                    type="checkbox"
+                    name="formParametersColumns"
+                    :id="item.label"
+                    :value="item"
+                    v-model="formParametersColumns"
+                    class="rounded"
+                  />
+                  <label :for="item.label" class="mx-2">{{ $t("parameters." + item.label) }}</label>
+                </div>
+              </template>
+            </fieldset>
+          </div>
+        </div>
+
         <div>
           <h3 class="text-lg font-semibold">{{ $t("message.step4") }}</h3>
 
