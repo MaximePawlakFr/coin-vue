@@ -14,12 +14,6 @@ export default {
       "LON",
       "ALTI",
     ],
-    defaultParameters: [
-      "RR",
-      "TN",
-      "TX",
-      "TM",
-    ],
     parameters: [
       { label: "precipitation", value: "RR" },
       { label: "temperatureMin", value: "TN" },
@@ -32,6 +26,16 @@ export default {
       // { label: "humidityAvg", value: "UM" },
       // { label: "vaporPressureAvg", value: "TSVM" },
     ],
+    // -- WIP --
+    // Enable 'Export Mode'
+    // rawParameters: [
+    //   { label: "RR", value: "RR" },
+    //   { label: "TN", value: "TN" },
+    //   { label: "TX", value: "TX" },
+    //   { label: "TM", value: "TM" },
+    //   { label: "FFM", value: "FFM" },
+    //   { label: "FF2M", value: "FF2M" },
+    // ],
   },
   parquet_urls: [
     // previous-1950
@@ -40,6 +44,16 @@ export default {
     "https://www.data.gouv.fr/fr/datasets/r/dad90fd9-8a0e-4a85-9f3c-8bfb31fc9d5f",
     // 2023-2024
     "https://www.data.gouv.fr/fr/datasets/r/3a8757ad-81b0-4ac7-a19d-d0e160a086df",
+    // -- WIP --
+    // Optimize HOR requests
+    // {
+    //   url:
+    //     "https://www.data.gouv.fr/fr/datasets/r/3a8757ad-81b0-4ac7-a19d-d0e160a086df",
+    //   startDate: "2023-01-01T00:00:00Z",
+    //   endDate: "2025-01-01T00:00:00Z",
+    //   startDepartment: 1,
+    //   endDepartment: 999,
+    // },
   ],
   available: true,
 };

@@ -8,7 +8,6 @@ export default {
   columns: {
     date: "AAAAMM",
     station: ["NOM_USUEL", "NUM_POSTE", "LAT", "LON", "ALTI"],
-    defaultParameters: ["RR", "TN", "TX", "TM"],
     parameters: [
       { label: "precipitation", value: "RR" },
       { label: "temperatureMin", value: "TN" },
