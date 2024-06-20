@@ -25,17 +25,22 @@ const getColumnsForSQLQuery = (array) => {
 
 const getDatesConditionForSQLQuery = (dateColumn, startDate, endDate) => {
   const dateLength = dateColumn.length;
+  // For hourly data, add 00 at the end
+  let prefix = "";
+  if (dateLength === 10) {
+    prefix = "00";
+  }
 
   const formattedStartDateValue = startDate.replaceAll("-", "").slice(
     0,
     dateLength,
-  );
+  ) + prefix;
   const startDateCondition = `${dateColumn}>=${formattedStartDateValue}`;
 
   const formattedEndDateValue = endDate.replaceAll("-", "").slice(
     0,
     dateLength,
-  );
+  ) + prefix;
   const endDateCondition = `${dateColumn}<=${formattedEndDateValue}`;
 
   const datesCondition = `${startDateCondition} AND ${endDateCondition}`;
